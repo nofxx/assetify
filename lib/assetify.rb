@@ -55,7 +55,7 @@ TXT
     def work_on params
       case params.first
       when /^i/, nil
-        check_param params, "install"
+        check_param params, "install" if params[0]
         @assets.map(&:install!)
       when /^u/
         check_param params, "update"

@@ -5,13 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assetify}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcos Piccinini"]
   s.date = %q{2011-05-12}
   s.default_executable = %q{assetify}
-  s.description = %q{TODO: longer description of your gem}
+  s.description = %q{Downloads/updates assets based on a Jsfile. Any framework.}
   s.email = %q{x@nofxx.com}
   s.executables = ["assetify"]
   s.extra_rdoc_files = [
@@ -24,6 +24,8 @@ Gem::Specification.new do |s|
     "Gemfile.lock",
     "README.md",
     "Rakefile",
+    "VERSION",
+    "assetify.gemspec",
     "bin/assetify",
     "lib/assetify.rb",
     "lib/assetify/asset.rb",
@@ -35,7 +37,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{TODO: one-line summary of your gem}
+  s.summary = %q{Downloads/updates assets. Any framework.}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
