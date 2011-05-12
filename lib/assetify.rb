@@ -45,10 +45,23 @@ TXT
       end.reject(&:nil?)
     end
 
+    def check_param params, string
+      unless string.include? params[0]
+        puts "Did you mean #{string}?"
+        exit 0
+      end
+    end
+
     def work_on params
       case params.first
       when /^i/, nil
+        check_param params, "install"
         @assets.map(&:install!)
+      when /^u/
+        check_param params, "update"
+        @assets.map { |a| a.install! :force }
+      else
+        puts "Dunno how to #{params.join}."
       end
     end
 

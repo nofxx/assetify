@@ -29,9 +29,9 @@ module Assetify
       File.exists? fullpath
     end
 
-    def install!
+    def install!(force = false)
       print "Installing #{name}..."
-      return puts "Installed" if check?
+      return puts "Installed" if !force && check?
       unless @data
         uri = URI.parse url
         Net::HTTP.start(uri.host) do |http|
