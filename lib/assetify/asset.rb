@@ -11,8 +11,6 @@ module Assetify
       @type, @name = type, name
       @ver = ver
       @url = @ver ? url.gsub(/{VERSION}/, @ver) : url
-      @new_name = params[:name]
-      @version  = params[:version]
     end
 
     def filename
@@ -29,17 +27,23 @@ module Assetify
       File.exists? fullpath
     end
 
+    def write
+      #puts "Writing to #{fullpath}"
+      File.open(fullpath, "w") { |f| f.puts(@data) }
+    end
+
+    def download
+      uri = URI.parse url
+      Net::HTTP.start(uri.host) do |http|
+        @data = http.get(uri.path)
+      end
+    end
+
     def install!(force = false)
       print "Installing #{name}..."
       return puts "Installed" if !force && check?
-      unless @data
-        uri = URI.parse url
-        Net::HTTP.start(uri.host) do |http|
-          @data = http.get(uri.path)
-        end
-      end
-      #puts "Writing to #{fullpath}"
-      File.open(fullpath, "w") { |f| f.puts(@data) }
+      download unless @data
+      write
       puts "DONE"
     end
 
