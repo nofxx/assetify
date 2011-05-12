@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+#require 'rubygems'
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'optparse'
+require 'assetify'
+
+opt = OptionParser.new do |o|
+    o.banner = <<BANNER
+Bugs Bunny - RabbitMQ Playground
+
+Usage: #{File.basename($0)} command [args]
+
+Commands:
+
+      install        -     All assets
+      update         -     Outdated assets
+      check          -     Prints changes
+
+Options:
+
+BANNER
+
+
+  o.on('-h', "Show help") { puts o; exit }
+  o.parse!
+end
+
+
+begin
+  Assetify.work!(ARGV)
+rescue Interrupt => e
+  puts "\nQuitting..."
+  puts e.backtrace.join("\n")
+  exit 1
+end
+
+
