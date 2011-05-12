@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "assetify"
   gem.homepage = "http://github.com/nofxx/assetify"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Downloads/updates assets. Any framework.}
+  gem.description = %Q{Downloads/updates assets based on a Jsfile. Any framework.}
   gem.email = "x@nofxx.com"
   gem.authors = ["Marcos Piccinini"]
   # dependencies defined in Gemfile
