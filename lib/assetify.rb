@@ -33,7 +33,8 @@ TXT
     end
 
     def read_jsfile
-      File.open("Jsfile").lines.map do |line|
+      file = File.open("Jsfile") # ruby 1.8/1.9 (ugly) fix
+      file.send(file.respond_to?(:lines) ? :lines : :readlines).map do |line|
         next if line =~ /^\w*\#|^#/
         if line =~ /^\w{2,3}path/
           key, val = line.split(" ")
