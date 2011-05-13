@@ -1,5 +1,7 @@
+require "assetify/helpers"
 require "assetify/asset"
 require "assetify/dsl"
+require "assetify/pkg"
 
 module Assetify
 

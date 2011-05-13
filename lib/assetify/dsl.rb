@@ -2,6 +2,12 @@ module Assetify
 
   class DSL
 
+    def pkg name, url, &block
+      @pkg = Pkg.new name, url
+      instance_exec(&block)
+      @pkg = nil
+    end
+
     def group name, &block
       @ns = name
       instance_exec(&block)
@@ -13,8 +19,8 @@ module Assetify
       @assets
     end
 
-    def method_missing method, name, url, ver=nil, params={}
-      (@assets ||= []) << Asset.new(method.to_sym, name, url, ver, params.merge({ :ns => @ns}))
+    def method_missing method, name, uri, ver=nil, params={}
+      (@assets ||= []) << Asset.new(method.to_sym, name, uri, ver, params.merge({ :ns => @ns, :pkg => @pkg}))
     end
 
     class << self

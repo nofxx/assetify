@@ -3,6 +3,7 @@ require 'fileutils'
 
 module Assetify
   class Asset
+    include Helpers
     attr_accessor :type, :name, :url, :ns
 
     def initialize(type, name, url, ver = nil, params={})
@@ -13,6 +14,7 @@ module Assetify
       @ver = ver
       @url = @ver ? url.gsub(/{VERSION}/, @ver) : url
       @ns = params[:ns] || ""
+      @pkg = params[:pkg]
     end
 
     def filename
@@ -38,28 +40,11 @@ module Assetify
       print "-> #{name}"
       # points = Thread.new { loop do; print "."; sleep 1; end }
       return print_result "Installed" if !force && check?
-      download unless @data
+      @data ||= @pkg ? @pkg.get(url) : download
       write
       print_result :ok
     end
 
-    private
-
-    def print_result(txt, varchars = name)
-      puts "[#{txt}]".rjust (47 - varchars.size)
-    end
-
-    def download
-      uri = URI.parse url
-      Net::HTTP.start(uri.host) do |http|
-        @data = http.get(uri.path)
-      end
-    end
-
-    def write
-      FileUtils.mkdir_p path unless Dir.exists? path
-      File.open(fullpath, "w") { |f| f.puts(@data) }
-    end
 
   end
 
