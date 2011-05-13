@@ -18,12 +18,12 @@ module Assetify
       return @filename if @filename
       @filename = Opt[:newname] ? name : url.split("/").last
       @filename += ".#{type}" unless @filename =~ /\.#{type}$/
-      @filename = @ns + "/" + @filename if @ns
+      @filename = "#{@ns}/#{@filename}" if @ns
       @filename
     end
 
     def fullpath
-      @fullpath ||= File.join(Opt["#{type}path".to_sym], filename) #Dir.pwd,
+      @fullpath ||= File.join(Opt["#{type}path".to_sym], filename)
     end
 
     def check?
