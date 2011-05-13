@@ -11,32 +11,23 @@ module Assetify
       @type, @name = type, name
       @ver = ver
       @url = @ver ? url.gsub(/{VERSION}/, @ver) : url
+      @ns = params[:ns]
     end
 
     def filename
-      fname = Opt[:newname] ? name : url.split("/").last
-      fname += ".#{type}" unless fname =~ /\.#{type}$/
+      return @filename if @filename
+      @filename = Opt[:newname] ? name : url.split("/").last
+      @filename += ".#{type}" unless @filename =~ /\.#{type}$/
+      @filename = @ns + "/" + @filename if @ns
+      @filename
     end
 
     def fullpath
-      path = Opt["#{type}path".to_sym]
-      File.join(path, filename) #Dir.pwd,
+      @fullpath ||= File.join(Opt["#{type}path".to_sym], filename) #Dir.pwd,
     end
 
     def check?
       File.exists? fullpath
-    end
-
-    def write
-      #puts "Writing to #{fullpath}"
-      File.open(fullpath, "w") { |f| f.puts(@data) }
-    end
-
-    def download
-      uri = URI.parse url
-      Net::HTTP.start(uri.host) do |http|
-        @data = http.get(uri.path)
-      end
     end
 
     def install!(force = false)
@@ -47,8 +38,20 @@ module Assetify
       puts "DONE"
     end
 
+    private
+
+    def download
+      uri = URI.parse url
+      Net::HTTP.start(uri.host) do |http|
+        @data = http.get(uri.path)
+      end
+    end
+
+    def write
+      #puts "Writing to #{fullpath}"
+      File.open(fullpath, "w") { |f| f.puts(@data) }
+    end
+
   end
-
-
 
 end

@@ -1,11 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe Assetify do
-  include Assetify
-
-  def mock_jsfile(d = 'js "cool", "http://cool.js/down"')
-    File.should_receive(:open).once.with("Jsfile").and_return(d)
-  end
 
   it "shoud read_jsfile" do
     mock_jsfile
@@ -14,7 +9,7 @@ describe Assetify do
 
   it "should skip comments" do
     mock_jsfile("#\n# Oi\n#\n")
-    Assetify.read_jsfile.should be_empty
+    Assetify.read_jsfile.should be_nil
   end
 
   it "should work with versions url" do
