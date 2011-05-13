@@ -3,7 +3,7 @@ require 'fileutils'
 
 module Assetify
   class Asset
-    attr_accessor :type, :name, :url
+    attr_accessor :type, :name, :url, :ns
 
     def initialize(type, name, url, ver = nil, params={})
       raise "NoType" unless type
@@ -35,14 +35,19 @@ module Assetify
     end
 
     def install!(force = false)
-      print "Installing #{name}..."
-      return puts "Installed" if !force && check?
+      print "-> #{name}"
+      # points = Thread.new { loop do; print "."; sleep 1; end }
+      return print_result "Installed" if !force && check?
       download unless @data
       write
-      puts "DONE"
+      print_result :ok
     end
 
     private
+
+    def print_result(txt, varchars = name)
+      puts "[#{txt}]".rjust (47 - varchars.size)
+    end
 
     def download
       uri = URI.parse url

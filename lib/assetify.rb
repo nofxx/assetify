@@ -66,10 +66,19 @@ TXT
       end
     end
 
+    def bar
+      puts "-" * 50
+    end
+
     def work!(params)
+      start = Time.now
+      puts "Assetify"
+      bar
       find_jsfile
       @assets = read_jsfile
       work_on params
+      bar
+      puts "Done in #{Time.now - start}s"
     end
 
 

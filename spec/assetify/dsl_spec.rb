@@ -23,6 +23,12 @@ describe DSL do
       a[0].fullpath.should eql("public/javascripts/common/foo.js")
     end
 
+    it "should go back to root" do
+      a = Assetify::DSL.parse "group 'common' do; js 'foo', 'foolink'; end; js 'rock', 'rocklink'"
+      a[1].should be_an Asset
+      a[1].fullpath.should eql("public/javascripts/rock.js")
+    end
+
   end
 
 end
