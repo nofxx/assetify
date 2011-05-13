@@ -22,7 +22,7 @@ This will create a Jsfile if not found.
 
 
 Jsfile
-------
+======
 
 Just like a Gemfile, but you choose the filetype before:
 
@@ -33,12 +33,44 @@ Just like a Gemfile, but you choose the filetype before:
 
 Now just run assetify to make sure everything is installed/up-to-date.
 
-Options:
 
-    newname true || false
-    jspath "new/path"
-    csspath "new/path"
-    imgpath "new/path"
+Groups
+------
+
+When using some compressor/minimizer (Jammit/Smurf...) namespaces come
+in handy:
+
+    group "forms" do
+      js "validator", "link"
+    end
+
+
+This will install as "public/javascripts/forms/validator.js"
+
+
+Pkgs
+----
+
+Big projects makes you download tons of files for some .min files and css.
+
+    pkg "fancy", "http://to.tgz.or.zip" do
+      js  "cool", "internal/js/cool"
+      css "cool", "internal/css/cool"
+    end
+
+This downloads and 'cherry pick' the files.
+
+
+
+Options
+-------
+
+Change some default settings:
+
+    newname  true || false
+    jspath  "public/javascripts"
+    csspath "public/stylesheets"
+    imgpath "public/images"
 
 
 If newname is set to true (default) the file will be renamed. Ex:
