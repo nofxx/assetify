@@ -1,4 +1,5 @@
 require 'net/http'
+require 'fileutils'
 
 module Assetify
   class Asset
@@ -11,19 +12,22 @@ module Assetify
       @type, @name = type, name
       @ver = ver
       @url = @ver ? url.gsub(/{VERSION}/, @ver) : url
-      @ns = params[:ns]
+      @ns = params[:ns] || ""
     end
 
     def filename
       return @filename if @filename
       @filename = Opt[:newname] ? name : url.split("/").last
       @filename += ".#{type}" unless @filename =~ /\.#{type}$/
-      @filename = "#{@ns}/#{@filename}" if @ns
       @filename
     end
 
+    def path
+      @path = File.join(Opt["#{type}path".to_sym],  @ns ? @ns.to_s : "")
+    end
+
     def fullpath
-      @fullpath ||= File.join(Opt["#{type}path".to_sym], filename)
+      @fullpath ||= File.join(path, filename)
     end
 
     def check?
@@ -48,7 +52,7 @@ module Assetify
     end
 
     def write
-      #puts "Writing to #{fullpath}"
+      FileUtils.mkdir_p path unless Dir.exists? path
       File.open(fullpath, "w") { |f| f.puts(@data) }
     end
 
