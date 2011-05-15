@@ -23,10 +23,21 @@ module Assetify
       unless res =~ /n|N/
         File.open("Jsfile", "w+") do |f|
           f.print <<TXT
-a :foox, "http://foox.com"
+#
+# #{Dir.pwd.split('/').last.capitalize} Jsfile
+#
+
+js  :jquery, "http://jquery.com"
+css :reset,  "http://prefered/rset/url"
+
+group :forms do
+  js :validator, "http://..."
+end
+
 TXT
         end
         puts "Jsfile created!"
+        exit 0
       end
     end
 
