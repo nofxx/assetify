@@ -36,7 +36,13 @@ describe DSL do
     it "should group and use a namespace" do
       a = Assetify::DSL.parse "pkg 'fancy', 'http://fancy.zip' do; js 'foo', 'foolink'; end"
       a[0].should be_an Asset
-      a[0].fullpath.should eql("public/javascripts/common/foo.js")
+      a[0].fullpath.should eql("public/javascripts/fancy/foo.js")
+    end
+
+    it "should fetch inside archive" do
+      a = Assetify::DSL.parse "pkg 'fancy', 'http://fancy.zip' do; js 'foo', 'foolink'; end"
+      a[0].should be_an Asset
+      a[0].fullpath.should eql("public/javascripts/fancy/foo.js")
     end
 
   end

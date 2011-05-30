@@ -1,8 +1,12 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rspec'
+require 'webmock/rspec'
 require 'assetify'
+
 include Assetify
+
+
 def mock_jsfile(d = 'js "cool", "http://cool.js/down"')
   File.should_receive(:open).once.with("Jsfile").and_return(d)
 end

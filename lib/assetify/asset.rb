@@ -40,12 +40,12 @@ module Assetify
       print "-> #{@type} | #{name}"
       # points = Thread.new { loop do; print "."; sleep 1; end }
       return print_result "Installed" if !force && check?
-      @data ||= @pkg ? @pkg.get(url) : download(url)
-      version = find_version @data.body
+      @data ||= @pkg ? @pkg.get(url) : get_data(url)
+      version = find_version @data
       unless version.empty?
-        print "...version #{find_version(@data.body)[0]}...."
+        print "...version #{find_version(@data)[0]}...."
       end
-      write @data.body
+      write @data
       print_result :ok
     end
 

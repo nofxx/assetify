@@ -4,8 +4,10 @@ module Assetify
 
     def pkg name, url, &block
       @pkg = Pkg.new name, url
+      @ns = name
       instance_exec(&block)
-      @pkg = nil
+      @ns = nil
+      assets
     end
 
     def group name, &block

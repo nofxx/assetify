@@ -11,7 +11,7 @@ module Assetify
     def initialize(name, url)
       @name = name
       @pkgname = url.split("/").last
-      @url = URI.parse(url)
+      @url = url
     end
 
     def path
@@ -23,6 +23,7 @@ module Assetify
     end
 
     def get(file)
+      get_data(url) unless File.exists? File.join(PATH, @pkgname)
       data = nil
       Archive.read_open_filename(fullpath) do |ar|
         while entry = ar.next_header
@@ -33,11 +34,6 @@ module Assetify
         end
       end
       data
-    end
-
-    def ensure
-      download unless File.exists? File.join(PATH, @pkgname)
-      unpack
     end
 
   end
