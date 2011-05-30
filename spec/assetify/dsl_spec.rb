@@ -15,6 +15,11 @@ describe DSL do
     a.fullpath.should eql("/home/nofxx/git/assetify/spec/rock/foo.rb")
   end
 
+  it "should not fail with symbols" do
+    a = Assetify::DSL.parse("js :jnice, 'foolink'")[0]
+    a.should be_an Asset
+    a.name.should eql("jnice")
+  end
 
   describe "Group Assets" do
 
