@@ -1,5 +1,6 @@
 require "assetify/helpers"
 require "assetify/asset"
+require "assetify/tui"
 require "assetify/dsl"
 require "assetify/pkg"
 
@@ -14,6 +15,8 @@ module Assetify
     :imgpath  =>  "public/images",
     :newname  =>  true
   }
+
+  LINE = TUI.new
 
   class << self
 

@@ -37,16 +37,16 @@ module Assetify
     end
 
     def install!(force = false)
-      print "-> #{@type} | #{name}"
+      LINE.p "-> #{name}.#{type}"
       # points = Thread.new { loop do; print "."; sleep 1; end }
-      return print_result "Installed" if !force && check?
+      return LINE.f "Installed" if !force && check?
       @data ||= @pkg ? @pkg.get(url) : get_data(url)
       version = find_version @data
-      unless version.empty?
-        print "...version #{find_version(@data)[0]}...."
+      if version
+        LINE.p " v#{version[0]}"
       end
       write @data
-      print_result :ok
+      LINE.f :ok
     end
 
 

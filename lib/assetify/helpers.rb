@@ -10,11 +10,8 @@ module Assetify
     def find_version(txt)
       version = txt.match /(?:(\d+)\.)?(?:(\d+)\.)?(\d+)?\.?(\d+)/
       # If matches a dot, it`s text. Otherwise make it number.
-      version.to_a.reject(&:nil?).map { |d| d =~ /\./ ? d : d.to_i }
-    end
-
-    def print_result(txt, varchars = name)
-      puts "[#{txt}]".rjust (47 - varchars.size)
+      v = version.to_a.reject(&:nil?).map { |d| d =~ /\./ ? d : d.to_i }
+      v.empty? || 0 == v[0] ? nil : v
     end
 
     def download url_str, limit = 10
