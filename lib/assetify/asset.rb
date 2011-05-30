@@ -43,15 +43,22 @@ module Assetify
       File.exists? fullpath
     end
 
+    def print_version
+      v = find_version(@data)
+      v ? "v#{v[0]} " : nil
+    end
+
     def install!(force = false)
       LINE.p "-> #{name}.#{type}"
-      return LINE.f "Installed" if !force && check?
+      if !force && check?
+        @data = File.read(fullpath)
+        return LINE.f "#{print_version}Installed"
+      end
       begin
         points = Thread.new { loop do; LINE.p "."; sleep 1; end }
         @data ||= @pkg ? @pkg.get(url) : get_data(url)
-        version = find_version @data
         write @data
-        LINE.f version ? "v#{version[0]} ok" : "ok"
+        LINE.f "#{print_version}ok"
       rescue => e
         LINE.f :FAIL, :red
         p "Fail: #{e}"
