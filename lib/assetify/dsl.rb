@@ -21,8 +21,12 @@ module Assetify
       @assets
     end
 
-    def method_missing method, name, uri, ver=nil, params={}
-      (@assets ||= []) << Asset.new(method.to_sym, name, uri, ver, params.merge({ :ns => @ns, :pkg => @pkg}))
+    def method_missing method, name, uri, *params
+      params, ver = params.partition { |param| param.is_a?(Hash) }
+      opts = {:ns => @ns, :pkg => @pkg}
+      params.each { |hsh| opts.merge! hsh }
+      ver = ver[0]
+      (@assets ||= []) << Asset.new(method.to_sym, name, uri, ver, opts)
     end
 
     class << self

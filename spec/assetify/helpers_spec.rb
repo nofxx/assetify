@@ -22,7 +22,7 @@ describe Helpers do
 
   it "should rescue fine if there isn`t version" do
     find_version("/* --------------------------------------------------------------   reset.css   * Resets default browser CSS.").
-      should be_empty
+      should be_nil
   end
 
 end

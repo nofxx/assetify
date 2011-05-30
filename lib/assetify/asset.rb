@@ -11,8 +11,7 @@ module Assetify
       raise "NoName" unless name
       raise "NoURL" unless url
       @type, @name = type, name
-      @ver = ver
-      @url = @ver ? url.gsub(/{VERSION}/, @ver) : url
+      @url = (@ver = ver) ? url.gsub(/{VERSION}/, @ver) : url
       @ns = params[:ns] || ""
       @pkg = params[:pkg]
     end
