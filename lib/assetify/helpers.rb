@@ -1,24 +1,52 @@
+require 'pry'
+
 module Assetify
   module Helpers
-
     private
+
+    #
+    # Detects numerical software version from text.
+    #
+    def find_version(txt)
+      version = txt.match /(?:(\d+)\.)?(?:(\d+)\.)?(\d+)?\.?(\d+)/
+      # If matches a dot, it`s text. Otherwise make it number.
+      version.to_a.reject(&:nil?).map { |d| d =~ /\./ ? d : d.to_i }
+    end
 
     def print_result(txt, varchars = name)
       puts "[#{txt}]".rjust (47 - varchars.size)
     end
 
-    def download
-      uri = URI.parse url
-      Net::HTTP.start(uri.host) do |http|
-        @data = http.get(uri.path)
+    def download url_str, limit = 10
+      raise ArgumentError, 'HTTP redirect too deep' if limit == 0
+      uri = URI.parse url_str
+      # # response = ""
+      http = Net::HTTP.start(uri.host, :use_ssl => url_str =~ /https/)# do |http|
+      response = http.get(uri.path)
+      # # end
+      # response = Net::HTTP.get_response(URI.parse(url_str) )# ,:use_ssl => url_str =~ /https/ )
+      case response
+      when Net::HTTPSuccess     then @data = response
+      when Net::HTTPRedirection then download(redirect_url(response), limit - 1)
+      else
+        p "response code: #{response.code}!"
+        response.error!
       end
     end
 
-    def write
+    def write(binary)
       FileUtils.mkdir_p path unless Dir.exists? path
-      File.open(fullpath, "w") { |f| f.puts(@data) }
+      File.open(fullpath, "w") { |f| f.puts(binary) }
     end
 
+    def redirect_url response
+      p response["location"]
+      if response['location'].nil?
+        response.body.match(/<a href=\"([^>]+)\">/i)[1]
+      else
+        response['location']
+      end
+    end
 
   end
 end

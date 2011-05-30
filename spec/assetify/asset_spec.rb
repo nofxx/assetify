@@ -19,7 +19,12 @@ describe Asset do
       as.fullpath.should eql("public/javascripts/sweet.js")
     end
 
-  end
+    it "should detect version" do
+    #  as.instance_variable_set :data,
+     # as.find_version.should eql("1.6")
+    end
 
+
+  end
 
 end
