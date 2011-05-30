@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assetify}
-  s.version = "0.2.0"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcos Piccinini"]
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
     "bin/assetify",
     "lib/assetify.rb",
     "lib/assetify/asset.rb",
+    "lib/assetify/colored.rb",
     "lib/assetify/dsl.rb",
     "lib/assetify/helpers.rb",
     "lib/assetify/pkg.rb",
