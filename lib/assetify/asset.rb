@@ -45,17 +45,21 @@ module Assetify
 
     def install!(force = false)
       LINE.p "-> #{name}.#{type}"
-      # points = Thread.new { loop do; print "."; sleep 1; end }
       return LINE.f "Installed" if !force && check?
-      @data ||= @pkg ? @pkg.get(url) : get_data(url)
-      version = find_version @data
-      if version
-        LINE.p " v#{version[0]}"
+      begin
+        points = Thread.new { loop do; LINE.p "."; sleep 1; end }
+        @data ||= @pkg ? @pkg.get(url) : get_data(url)
+        version = find_version @data
+        write @data
+        LINE.f version ? "v#{version[0]} ok" : "ok"
+      rescue => e
+        LINE.f :FAIL, :red
+        p "Fail: #{e}"
+      ensure
+        points.kill
       end
-      write @data
-      LINE.f :ok
-    end
 
+    end
 
   end
 

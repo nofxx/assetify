@@ -1,8 +1,8 @@
 module Assetify
 
   class TUI
-    def initialize(size = 80)
-      @size = 80
+    def initialize(size = TSIZE)
+      @size = size
       @chars = 0
     end
 
@@ -11,8 +11,8 @@ module Assetify
       print txt
     end
 
-    def f txt
-      puts "[#{txt}]".rjust (50 - @chars)
+    def f txt, color = :green
+      puts "[#{txt}]".send(color).bold.rjust (TSIZE - @chars + 17)
       @chars = 0
     end
   end

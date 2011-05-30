@@ -1,3 +1,4 @@
+require "assetify/colored"
 require "assetify/helpers"
 require "assetify/asset"
 require "assetify/tui"
@@ -16,6 +17,7 @@ module Assetify
     :newname  =>  true
   }
 
+  TSIZE = 80
   LINE = TUI.new
 
   class << self
@@ -83,7 +85,7 @@ TXT
     end
 
     def bar
-      puts "-" * 50
+      puts "-" * TSIZE
     end
 
     def work!(params)
