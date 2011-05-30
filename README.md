@@ -26,7 +26,7 @@ Jsfile
 
 Just like a Gemfile, but you choose the filetype before:
 
-    type "name", "url", <version>
+    type "name", "url", <"version"> or <:options>
 
     js "jquery", "http://code.jquery.com/jquery-{VERSION}.min.js", "1.6"
     js "tipsy", "https://github.com/jaz303/tipsy/.../jquery.tipsy.js"
@@ -62,6 +62,19 @@ This downloads and 'cherry pick' the files.
 
 
 
+Other
+-----
+
+Set a different location per file:
+
+
+    js "other", "http://lib.../other.js", :to => "different/path"
+
+Filename will be: ./different/path/other.js
+This works for namespaces too, change "to" with "ns".
+
+
+
 Options
 -------
 
@@ -72,12 +85,13 @@ Change some default settings:
     csspath "public/stylesheets"
     imgpath "public/images"
 
-
 If newname is set to true (default) the file will be renamed. Ex:
 
     js "validator", "http//.../jquery.validator.min.js"
 
 Filename will be: "validator.js"
+
+
 
 
 Contributing

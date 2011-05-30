@@ -13,6 +13,7 @@ module Assetify
       @type, @name = type, name
       @url = (@ver = ver) ? url.gsub(/{VERSION}/, @ver) : url
       @ns = params[:ns] || ""
+      @to = params[:to]
       @pkg = params[:pkg]
     end
 
@@ -24,7 +25,12 @@ module Assetify
     end
 
     def path
-      @path = File.join(Opt["#{type}path".to_sym],  @ns ? @ns.to_s : "")
+      args = if @to
+        [Dir.pwd, @to]
+      else
+        [Opt["#{type}path".to_sym],  @ns ? @ns.to_s : ""]
+      end
+      @path = File.join(args)
     end
 
     def fullpath

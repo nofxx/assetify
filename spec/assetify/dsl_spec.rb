@@ -8,6 +8,13 @@ describe DSL do
     a.fullpath.should eql("public/javascripts/foo.js")
   end
 
+  it "should accept a especific location with :to" do
+    Dir.should_receive(:pwd).and_return("/home/nofxx/git/assetify")
+    a = Assetify::DSL.parse("rb 'foo', 'foolink', :to => 'spec/rock'")[0]
+    a.should be_an Asset
+    a.fullpath.should eql("/home/nofxx/git/assetify/spec/rock/foo.rb")
+  end
+
 
   describe "Group Assets" do
 

@@ -1,0 +1,5 @@
+#
+# Assetify Jsfile
+#
+
+rb "colored", "https://github.com/defunkt/colored/raw/master/lib/colored.rb",
