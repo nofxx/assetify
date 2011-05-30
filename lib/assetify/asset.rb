@@ -13,7 +13,7 @@ module Assetify
       @type, @name = type, name
       @url = (@ver = ver) ? url.gsub(/{VERSION}/, @ver) : url
       @ns = params[:ns] || ""
-      @to = params[:to]
+      @to = params[:to] || ""
       @pkg = params[:pkg]
     end
 
@@ -25,10 +25,12 @@ module Assetify
     end
 
     def path
-      args = if @to
-        [Dir.pwd, @to]
+      args = if @to.empty?
+        tpath = Opt["#{type}path".to_sym]
+        raise "Don`t know where to put #{type} files..." unless tpath
+        [tpath,  @ns ? @ns.to_s : ""]
       else
-        [Opt["#{type}path".to_sym],  @ns ? @ns.to_s : ""]
+        [Dir.pwd, @to]
       end
       @path = File.join(args)
     end
