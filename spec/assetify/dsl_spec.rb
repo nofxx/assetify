@@ -41,6 +41,12 @@ describe DSL do
       a[1].fullpath.should eql("public/javascripts/rock.js")
     end
 
+    it "should work with nested namespaces" do
+      a = Assetify::DSL.parse "group 'common' do; group 'nice' do; js 'foo', 'foolink'; end; end"
+      a[0].should be_an Asset
+      a[0].fullpath.should eql("public/javascripts/common/nice/foo.js")
+    end
+
   end
 
   describe "Pkg Assets" do

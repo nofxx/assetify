@@ -11,7 +11,7 @@ module Assetify
     end
 
     def group name, &block
-      @ns = name
+      @ns = @ns.nil? ? name : "#{@ns}/#{name}"
       instance_exec(&block)
       @ns = nil
       assets
