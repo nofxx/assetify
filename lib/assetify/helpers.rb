@@ -40,7 +40,7 @@ module Assetify
     end
 
     def write(binary)
-      FileUtils.mkdir_p path unless Dir.exists? path
+      FileUtils.mkdir_p path unless  Dir.exists?(path)
       File.open(fullpath, "w") { |f| f.puts(binary) }
     end
 

@@ -23,7 +23,9 @@ module Assetify
     end
 
     def get(file)
-      get_data(url) unless File.exists? File.join(PATH, @pkgname)
+      unless File.exists? File.join(fullpath) #PATH, @pkgname)
+        write get_data(url)
+      end
       data = nil
       Archive.read_open_filename(fullpath) do |ar|
         while entry = ar.next_header

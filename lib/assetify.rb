@@ -71,14 +71,18 @@ TXT
       end
     end
 
+    def find_assets(filter = nil)
+      filter ? @assets.select { |a| a.name =~ /#{filter}/ } : @assets
+    end
+
     def work_on params
       case params.first
       when /^i/, nil
         check_param params, "install" if params[0]
-        @assets.map(&:install!)
+        find_assets(params[1]).map(&:install!)
       when /^u/
         check_param params, "update"
-        @assets.map { |a| a.install! :force }
+        find_assets(params[1]).map { |a| a.install! :force }
       else
         puts "Dunno how to #{params.join}."
       end
