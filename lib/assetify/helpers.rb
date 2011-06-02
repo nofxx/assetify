@@ -8,6 +8,7 @@ module Assetify
     # Detects numerical software version from text.
     #
     def find_version(txt)
+      return unless txt
       version = txt.match /(?:(\d+)\.)?(?:(\d+)\.)?(\d+)?\.?(\d+)/
       # If matches a dot, it`s text. Otherwise make it number.
       v = version.to_a.reject(&:nil?).map { |d| d =~ /\./ ? d : d.to_i }

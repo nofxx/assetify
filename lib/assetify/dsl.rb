@@ -2,16 +2,20 @@ module Assetify
 
   class DSL
 
-    def pkg name, url, &block
+    def set_namespace(name)
+      @ns = @ns.nil? ? name : "#{@ns}/#{name}"
+    end
+
+    def pkg name, url, opts = {}, &block
       @pkg = Pkg.new name, url
-      @ns = name
+      set_namespace name unless opts[:shallow]
       instance_exec(&block)
-      @ns = nil
+      @ns = @pkg = nil
       assets
     end
 
     def group name, &block
-      @ns = @ns.nil? ? name : "#{@ns}/#{name}"
+      set_namespace name
       instance_exec(&block)
       @ns = nil
       assets

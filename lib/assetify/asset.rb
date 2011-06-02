@@ -61,7 +61,7 @@ module Assetify
         LINE.f "#{print_version}ok"
       rescue => e
         LINE.f :FAIL, :red
-        p "Fail: #{e}"
+        p "Fail: #{e} #{e.backtrace}"
       ensure
         points.kill
       end
