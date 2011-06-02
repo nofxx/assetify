@@ -71,8 +71,10 @@ TXT
       end
     end
 
+    # Fuzzy find files
     def find_assets(filter = nil)
-      filter ? @assets.select { |a| a.name =~ /#{filter}/ } : @assets
+      return @assets unless filter
+      @assets.select {  |a| "#{a.name}#{a.pkg}" =~ /#{filter}/ }
     end
 
     def work_on params

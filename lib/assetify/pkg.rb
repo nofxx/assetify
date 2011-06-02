@@ -22,20 +22,23 @@ module Assetify
       File.join(path, @pkgname)
     end
 
-    def get(file)
-      unless File.exists? File.join(fullpath) #PATH, @pkgname)
-        write get_data(url)
-      end
+    def read_from_pkg(regex)
       data = nil
       Archive.read_open_filename(fullpath) do |ar|
         while entry = ar.next_header
-          if entry.pathname =~ /#{file}/
+          if entry.pathname =~ /#{regex}/
             data = ar.read_data
             return data
           end
         end
       end
       data
+    end
+
+    def get(file, force = false)
+      # Download and write to tmp if force or doensnt exists
+      write(get_data(url)) if force || !File.exists?(File.join(fullpath))
+      read_from_pkg file
     end
 
   end

@@ -4,7 +4,7 @@ require 'fileutils'
 module Assetify
   class Asset
     include Helpers
-    attr_accessor :type, :name, :url, :ns
+    attr_accessor :type, :name, :url, :ns, :pkg
 
     def initialize(type, name, url, ver = nil, params={})
       raise "NoType" unless type
@@ -55,8 +55,12 @@ module Assetify
         return LINE.f "#{print_version}Installed"
       end
       begin
+        # Creates a thread to insert dots while downloading
         points = Thread.new { loop do; LINE.p "."; sleep 1; end }
-        @data ||= @pkg ? @pkg.get(url) : get_data(url)
+
+        # Get data, from a pkg or download directly
+        @data ||= @pkg ? @pkg.get(url, :force) : get_data(url)
+
         write @data
         LINE.f "#{print_version}ok"
       rescue => e
