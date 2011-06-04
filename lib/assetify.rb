@@ -14,6 +14,7 @@ module Assetify
     :jspath   =>  "public/javascripts",
     :csspath  =>  "public/stylesheets",
     :imgpath  =>  "public/images",
+    :vendor   =>  "public/vendor",
     :newname  =>  true
   }
 

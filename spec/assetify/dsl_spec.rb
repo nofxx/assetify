@@ -69,6 +69,29 @@ describe DSL do
       a[0].fullpath.should eql("public/javascripts/fancy/foo.js")
     end
 
+    it "should unpack to vendor if no block given" do
+      Pkg.should_receive(:new).with("fancy", "http://fancy.zip").and_return(mp = mock(Pkg))
+      mp.should_receive :unpack_to_vendor
+      a = Assetify::DSL.parse "pkg 'fancy', 'http://fancy.zip'"
+    end
+  end
+
+  describe "Directories" do
+
+    it "should read from pkg the regex" do
+      Pkg.should_receive(:new).with("fancy", "http://fancy.zip").and_return(mp = mock(Pkg))
+      mp.should_receive(:get).with("images/").and_return([])
+      a = Assetify::DSL.parse "pkg 'fancy', 'http://fancy.zip' do; dir 'images/', :to => 'images/complex/'; end"
+    end
+
+    it "should read from pkg the regex" do
+      as = Assetify::DSL.parse "pkg 'complex', 'http://complex.tgz' do; dir 'images/', :to => 'images/complex/'; end"
+      as[0].name.should eql("two")
+      as[0].ext.should eql("png")
+      as[0].fullpath.should eql("png")
+    end
+
+
   end
 
 end
