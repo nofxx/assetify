@@ -24,14 +24,23 @@ This will create a Jsfile if not found.
 Jsfile
 ======
 
-Just like a Gemfile, but you choose the filetype before:
+Just like a Gemfile, but you choose the filetype (or extension) before:
 
     type "name", "url", <"version"> or <:options>
 
     js "jquery", "http://code.jquery.com/jquery-{VERSION}.min.js", "1.6"
     js "tipsy", "https://github.com/jaz303/tipsy/.../jquery.tipsy.js"
 
-Now just run assetify to make sure everything is installed/up-to-date.
+Stylesheets:
+
+    css "tipsy", "https://github.com/jaz303/tipsy/.../jquery.tipsy.css"
+
+Any file:
+
+    mp3 "alert", "http://link/to/audio"
+
+
+Now just run `assetify` to make sure everything is installed/up-to-date.
 
 
 Groups
@@ -47,6 +56,15 @@ in handy:
 
 This will install as "public/javascripts/forms/validator.js"
 
+You can nest groups too:
+
+    group "forms" do
+      js "validator", "link"
+      group "extra" do
+        js "another", "link"
+      end
+    end
+
 
 Pkgs
 ----
@@ -54,13 +72,42 @@ Pkgs
 Big projects makes you download tons of files for some .min files and css.
 
     pkg "fancy", "http://to.tgz.or.zip" do
-      js  "cool", "internal/js/cool"
-      css "cool", "internal/css/cool"
+      js  "cool", "internal/js/cool.js"
+      css "cool", "internal/css/cool.css"
     end
 
 This downloads and 'cherry pick' the files.
+Files will be written with the namespace "fancy":
+
+    /javascripts/fancy/cool.js
+
+You can pass :shallow => true to avoid the namespace:
+
+    pkg "fancy", "http://to.tgz.or.zip", :shallow => true do
+
+Results in:
+
+    /javascript/cool.js
 
 
+Also, please check out the note about link inside pkgs below.
+
+
+Dir
+___
+
+You can resource a full directory of files, too. Very useful when
+dealing with pkgs:
+
+    pkg "complexfw", "link" do
+      js  "complex.min.js"
+      dir "images/", :to => "images/complexfw"
+    end
+
+
+Note: Have in mind that the "link" inside dir/packages *is a regex*
+that returns the *first match* inside the archive. Check out libarchive
+or the pkg.rb source for more info.
 
 Other
 -----
