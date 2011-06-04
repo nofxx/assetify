@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assetify}
-  s.version = "0.2.2"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcos Piccinini"]
-  s.date = %q{2011-05-30}
+  s.date = %q{2011-06-04}
   s.default_executable = %q{assetify}
   s.description = %q{Downloads/updates assets based on a Jsfile. Any framework.}
   s.email = %q{x@nofxx.com}
@@ -40,6 +40,7 @@ Gem::Specification.new do |s|
     "spec/assetify/helpers_spec.rb",
     "spec/assetify/pkg_spec.rb",
     "spec/assetify_spec.rb",
+    "spec/fixtures/complex.tgz",
     "spec/fixtures/fancy.tgz",
     "spec/spec_helper.rb"
   ]
