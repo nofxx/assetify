@@ -102,7 +102,12 @@ dealing with pkgs:
     pkg "complexfw", "link" do
       js  "complex.min.js"
       dir "images/", :to => "images/complexfw"
+      # Another option, treat all as a type:
+      dir "src/", :as => :js
     end
+
+All files inside images will be copied to "images/complexfw" and
+all files in 'src' to 'javascripts' (or whatever else jspath is).
 
 
 Note: Have in mind that the "link" inside dir/packages *is a regex*
