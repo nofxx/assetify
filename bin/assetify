@@ -16,6 +16,8 @@ Commands:
       update         -     Outdated assets
       check          -     Prints changes
 
+Commands are matched by regex, e.g. "up -> update".
+
 Options:
 
 BANNER
