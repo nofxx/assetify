@@ -4,7 +4,7 @@ require 'fileutils'
 module Assetify
   class Asset
     include Helpers
-    attr_accessor :type, :name, :url, :ns, :pkg
+    attr_accessor :type, :name, :url, :ns, :pkg, :ver
     alias :ext :type
 
     def initialize(type, name, url, ver = nil, params={})
@@ -21,7 +21,7 @@ module Assetify
     def filename
       return @filename if @filename
       @filename = Opt[:newname] ? name : url.split("/").last
-      @filename += ".#{type}" unless @filename =~ /\.#{type}$/
+      @filename += ".#{type}" unless @filename =~ /\.\w{1,6}$/
       @filename
     end
 
@@ -45,13 +45,19 @@ module Assetify
     end
 
     def print_version
-      v = find_version(@data)
-      v ? "v#{v[0]} " : nil
+      return "" unless ver
+      ver_str = ver.size > 10 ? ver[0..10] : ver[0]
+      "v#{ver_str} "
     end
 
     def data
       # Get data, from a pkg or download directly
       @data ||= @pkg ? @pkg.get(url, :force).values.first : get_data(url)
+    end
+
+    def ver
+      return nil unless @data
+      @ver ||= find_version(@data)
     end
 
     def install!(force = false)

@@ -1,18 +1,44 @@
-require 'pry'
+# require 'pry'
+require 'digest/md5'
+
+class String
+  #
+  # From ptools - http://rdoc.info/gems/ptools/1.2.1/File.binary%3F
+  #
+  def binary?
+    #s = (File.read(file, File.stat(file).blksize) || "").split(//)
+    s = (self[0..4096].force_encoding("binary") || "") #.split(//)
+    ratio =  s.gsub(/\d|\w|\s|[-~\.]/,'').size / s.size.to_f
+    # if Opt[:debug]
+    #   print "Detecting #{s}"
+    #   puts "Ratio #{ratio}"
+    # end
+    ratio > 0.3
+  end
+end
 
 module Assetify
   module Helpers
-    private
 
     #
     # Detects numerical software version from text.
     #
     def find_version(txt)
       return unless txt
-      version = txt.match /(?:(\d+)\.)?(?:(\d+)\.)?(\d+)?\.?(\d+)/
+      txt.binary? ? find_version_from_bin(txt) : find_version_from_txt(txt)
+    end
+
+    private
+
+    def find_version_from_txt blob
+      version = blob.match(/(?:(\d+)\.)?(?:(\d+)\.)?(\d+)?\.?(\d+)/)
       # If matches a dot, it`s text. Otherwise make it number.
       v = version.to_a.reject(&:nil?).map { |d| d =~ /\./ ? d : d.to_i }
       v.empty? || 0 == v[0] ? nil : v
+    end
+
+    def find_version_from_bin blob
+      Digest::MD5.hexdigest blob
     end
 
     def download url_str, limit = 10
@@ -27,7 +53,7 @@ module Assetify
       when Net::HTTPSuccess     then @data = response
       when Net::HTTPRedirection then download(redirect_url(response), limit - 1)
       else
-        p "response code: #{response.code}!"
+        puts "response code: #{response.code}!"
         response.error!
       end
     end

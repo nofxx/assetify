@@ -24,6 +24,7 @@ BANNER
 
 
   o.on('-h', "Show help") { puts o; exit }
+  o.on('-d', "Verbose (Debug)") { Opt[:debug] = true }
   o.parse!
 end
 

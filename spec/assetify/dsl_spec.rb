@@ -2,10 +2,22 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe DSL do
 
-  it "should group and use a namespace" do
+  it "should parse js nicely" do
     a = Assetify::DSL.parse("js 'foo', 'foolink'")[0]
     a.should be_an Asset
     a.fullpath.should eql("public/javascripts/foo.js")
+  end
+
+  it "should parse css nicely" do
+    a = Assetify::DSL.parse("css 'foo', 'foolink'")[0]
+    a.should be_an Asset
+    a.fullpath.should eql("public/stylesheets/foo.css")
+  end
+
+  it "should parse img nicely (gif)" do
+    a = Assetify::DSL.parse("img 'foo.gif', 'foolink'")[0]
+    a.should be_an Asset
+    a.fullpath.should eql("public/images/foo.gif")
   end
 
   it "should accept a especific location with :to" do
@@ -88,7 +100,7 @@ describe DSL do
       as = Assetify::DSL.parse "pkg 'complex', 'http://complex.tgz' do; dir 'images/', :to => 'images/complex/'; end"
       as[0].name.should eql("two")
       as[0].ext.should eql("png")
-      as[0].fullpath.should eql("png")
+      as[0].fullpath.should eql("/home/nofxx/git/assetify/images/complex/two.png")
     end
 
 

@@ -20,11 +20,14 @@ describe Asset do
     end
 
     it "should detect version" do
-    #  as.instance_variable_set :data,
-     # as.find_version.should eql("1.6")
+      as.instance_variable_set "@data", "/* foo v 1.5.6 */"
+      as.ver[0].should eql("1.5.6")
     end
 
-
+    it "should print version" do
+      as.instance_variable_set "@data", "\u001F\x8B\b\u0000\xF5\u0000"
+      as.print_version.should eql("v537c8396f74 ")
+    end
   end
 
 end
