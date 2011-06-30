@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assetify}
-  s.version = "0.3.0"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcos Piccinini"]
-  s.date = %q{2011-06-04}
+  s.date = %q{2011-06-30}
   s.default_executable = %q{assetify}
   s.description = %q{Downloads/updates assets based on a Jsfile. Any framework.}
   s.email = %q{x@nofxx.com}
@@ -57,18 +57,18 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rspec>, [">= 2.3.0"])
       s.add_development_dependency(%q<bundler>, [">= 1.0.0"])
-      s.add_development_dependency(%q<jeweler>, [">= 1.6.0"])
+      s.add_development_dependency(%q<jeweler>, [">= 0"])
       s.add_development_dependency(%q<webmock>, [">= 0"])
     else
       s.add_dependency(%q<rspec>, [">= 2.3.0"])
       s.add_dependency(%q<bundler>, [">= 1.0.0"])
-      s.add_dependency(%q<jeweler>, [">= 1.6.0"])
+      s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<webmock>, [">= 0"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 2.3.0"])
     s.add_dependency(%q<bundler>, [">= 1.0.0"])
-    s.add_dependency(%q<jeweler>, [">= 1.6.0"])
+    s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<webmock>, [">= 0"])
   end
 end
