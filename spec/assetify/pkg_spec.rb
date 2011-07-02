@@ -35,7 +35,7 @@ describe Pkg do
     as = Pkg.new "complex", "/tmp/complex/complex.tgz"
     as.unpack_to_vendor #.should be_a Hash #(hash_including "complex/images/3.png"=>"Im a png image..3\n")
     File.exists?("public/vendor/complex/src/main.js").should be_true
-    `rm -rf public/vendor`
+    `rm -rf vendor/assets/vendor`
   end
 
 end

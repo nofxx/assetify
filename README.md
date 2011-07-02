@@ -54,7 +54,7 @@ in handy:
     end
 
 
-This will install as "public/javascripts/forms/validator.js"
+This will install as "vendor/assets/javascripts/forms/validator.js"
 
 You can nest groups too:
 
@@ -93,6 +93,7 @@ Results in:
 Also, please check out the note about link inside pkgs below.
 
 
+
 Dir
 ___
 
@@ -114,6 +115,8 @@ Note: Have in mind that the "link" inside dir/packages *is a regex*
 that returns the *first match* inside the archive. Check out libarchive
 or the pkg.rb source for more info.
 
+
+
 Other
 -----
 
@@ -132,10 +135,10 @@ Options
 
 Change some default settings:
 
-    newname  true || false
-    jspath  "public/javascripts"
-    csspath "public/stylesheets"
-    imgpath "public/images"
+    newname      true || false
+    javascripts  "public/javascripts"
+    stylesheets  "public/stylesheets"
+    images       "public/images"
 
 If newname is set to true (default) the file will be renamed. Ex:
 
@@ -143,6 +146,13 @@ If newname is set to true (default) the file will be renamed. Ex:
 
 Filename will be: "validator.js"
 
+
+
+Rails
+-----
+
+Out of the box support for rails 3.1, defaults to 'vendor/assets'.
+Rails 3.0< users should change the options as above.
 
 
 

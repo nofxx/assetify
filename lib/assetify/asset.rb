@@ -25,9 +25,17 @@ module Assetify
       @filename
     end
 
+    def find_path_for txt
+      case txt
+      when /js/  then :javascripts
+      when /css|style/ then :stylesheets
+      else :images
+      end
+    end
+
     def path
       args = if @to.empty?
-        tpath = Opt["#{type}path".to_sym]
+        tpath = Opt[find_path_for(type)]
         raise "Don`t know where to put #{type} files..." unless tpath
         [tpath,  @ns ? @ns.to_s : ""]
       else

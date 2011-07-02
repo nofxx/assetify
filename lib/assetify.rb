@@ -1,28 +1,36 @@
-require "assetify/colored"
-require "assetify/helpers"
-require "assetify/asset"
 require "assetify/tui"
-require "assetify/dsl"
-require "assetify/pkg"
-
 module Assetify
 
-  class NoJSFile < StandardError
-  end
-
   Opt = {
-    :jspath   =>  "public/javascripts",
-    :csspath  =>  "public/stylesheets",
-    :imgpath  =>  "public/images",
     :vendor   =>  "public/vendor",
     :newname  =>  true
   }
 
   TSIZE = 80
-  LINE = TUI.new
+  LINE  = TUI.new
+  ASSETS_PATH = "vendor/assets"
+  ASSETS = [:javascripts, :stylesheets, :images]
+  ASSETS.each do |asset|
+    Opt.merge!(asset => "#{ASSETS_PATH}/#{asset}")
+  end
 
+  class NoJSFile < StandardError
+  end
+end
+
+require "assetify/colored"
+require "assetify/helpers"
+require "assetify/asset"
+require "assetify/dsl"
+require "assetify/pkg"
+
+
+module Assetify
   class << self
 
+    #
+    # Jsfile stuff
+    #
     def no_jsfile!
       print "Jsfile not found, create one? [Y/n] "
       res = gets.chomp
@@ -65,6 +73,10 @@ TXT
       DSL.parse code.join(";")
     end
 
+    #
+    # Text Interface
+    #
+
     def check_param params, string
       unless string.include? params[0]
         puts "Did you mean #{string}?"
@@ -94,6 +106,7 @@ TXT
     def bar
       puts "-" * TSIZE
     end
+
 
     def work!(params)
       start = Time.now

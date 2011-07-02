@@ -40,6 +40,13 @@ module Assetify
       end
     end
 
+    # Create assets path setters
+    Assetify::ASSETS.each do |asset|
+      define_method asset do |path|
+        Opt[asset] = path
+      end
+    end
+
     #
     # js "foo", "http://foo.com"
     # js "foo", "http://foo.com", :to => "/other/place"

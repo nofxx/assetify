@@ -5,19 +5,19 @@ describe DSL do
   it "should parse js nicely" do
     a = Assetify::DSL.parse("js 'foo', 'foolink'")[0]
     a.should be_an Asset
-    a.fullpath.should eql("public/javascripts/foo.js")
+    a.fullpath.should eql("vendor/assets/javascripts/foo.js")
   end
 
   it "should parse css nicely" do
     a = Assetify::DSL.parse("css 'foo', 'foolink'")[0]
     a.should be_an Asset
-    a.fullpath.should eql("public/stylesheets/foo.css")
+    a.fullpath.should eql("vendor/assets/stylesheets/foo.css")
   end
 
   it "should parse img nicely (gif)" do
     a = Assetify::DSL.parse("img 'foo.gif', 'foolink'")[0]
     a.should be_an Asset
-    a.fullpath.should eql("public/images/foo.gif")
+    a.fullpath.should eql("vendor/assets/images/foo.gif")
   end
 
   it "should accept a especific location with :to" do
@@ -38,25 +38,25 @@ describe DSL do
     it "should group and use a namespace" do
       a = Assetify::DSL.parse "group 'common' do; js 'foo', 'foolink'; end"
       a[0].should be_an Asset
-      a[0].fullpath.should eql("public/javascripts/common/foo.js")
+      a[0].fullpath.should eql("vendor/assets/javascripts/common/foo.js")
     end
 
     it "should group and use a namespace 2" do
       a = Assetify::DSL.parse "group 'common' do; js 'foo', 'foolink'; js 'rock', 'rocklink'; end"
       a[0].should be_an Asset
-      a[0].fullpath.should eql("public/javascripts/common/foo.js")
+      a[0].fullpath.should eql("vendor/assets/javascripts/common/foo.js")
     end
 
     it "should go back to root" do
       a = Assetify::DSL.parse "group 'common' do; js 'foo', 'foolink'; end; js 'rock', 'rocklink'"
       a[1].should be_an Asset
-      a[1].fullpath.should eql("public/javascripts/rock.js")
+      a[1].fullpath.should eql("vendor/assets/javascripts/rock.js")
     end
 
     it "should work with nested namespaces" do
       a = Assetify::DSL.parse "group 'common' do; group 'nice' do; js 'foo', 'foolink'; end; end"
       a[0].should be_an Asset
-      a[0].fullpath.should eql("public/javascripts/common/nice/foo.js")
+      a[0].fullpath.should eql("vendor/assets/javascripts/common/nice/foo.js")
     end
 
   end
@@ -66,19 +66,19 @@ describe DSL do
     it "should group and use a namespace" do
       a = Assetify::DSL.parse "pkg 'fancy', 'http://fancy.zip' do; js 'foo', 'foolink'; end"
       a[0].should be_an Asset
-      a[0].fullpath.should eql("public/javascripts/fancy/foo.js")
+      a[0].fullpath.should eql("vendor/assets/javascripts/fancy/foo.js")
     end
 
     it "should accept shallow too" do
       a = Assetify::DSL.parse "pkg 'fancy', 'http://fancy.zip', :shallow => true do; js 'foo', 'foolink'; end"
       a[0].should be_an Asset
-      a[0].fullpath.should eql("public/javascripts/foo.js")
+      a[0].fullpath.should eql("vendor/assets/javascripts/foo.js")
     end
 
     it "should fetch inside archive" do
       a = Assetify::DSL.parse "pkg 'fancy', 'http://fancy.zip' do; js 'foo', 'foolink'; end"
       a[0].should be_an Asset
-      a[0].fullpath.should eql("public/javascripts/fancy/foo.js")
+      a[0].fullpath.should eql("vendor/assets/javascripts/fancy/foo.js")
     end
 
     it "should unpack to vendor if no block given" do
@@ -103,7 +103,19 @@ describe DSL do
       as[0].fullpath.should eql("/home/nofxx/git/assetify/images/complex/two.png")
     end
 
+  end
 
+  describe "Paths" do
+
+    it "should change js path" do
+      Assetify::DSL.parse "javascripts 'other/foo'"
+      Opt[:javascripts].should eql('other/foo')
+    end
+
+    it "should change css path" do
+      Assetify::DSL.parse "stylesheets 'other/foo'"
+      Opt[:javascripts].should eql('other/foo')
+    end
   end
 
 end

@@ -32,7 +32,7 @@ describe Assetify do
     end
 
     it "should have fullpath" do
-      asset.fullpath.should eql("public/stylesheets/grid.css")
+      asset.fullpath.should eql("vendor/assets/stylesheets/grid.css")
     end
 
   end
@@ -58,7 +58,7 @@ describe Assetify do
     end
 
     it "should have fullpath" do
-      asset.fullpath.should eql("public/javascripts/cool.js")
+      asset.fullpath.should eql("vendor/assets/javascripts/cool.js")
     end
 
 

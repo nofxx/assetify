@@ -16,7 +16,7 @@ describe Asset do
     end
 
     it "should have fullpath" do
-      as.fullpath.should eql("public/javascripts/sweet.js")
+      as.fullpath.should eql("vendor/assets/javascripts/sweet.js")
     end
 
     it "should detect version" do
