@@ -21,6 +21,7 @@ end
 require "assetify/colored"
 require "assetify/helpers"
 require "assetify/asset"
+require "assetify/path"
 require "assetify/dsl"
 require "assetify/pkg"
 
