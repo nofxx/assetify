@@ -3,10 +3,13 @@ module Assetify
   class DSL
     attr_reader :assets
 
-    def set_namespace(name)
-      @ns = @ns.nil? ? name : "#{@ns}/#{name}"
-    end
 
+    #
+    # Makes a pkg, a gz/tar/zip asset/
+    #
+    # pkg :foo, "http://to.tgz" do
+    # end
+    #
     def pkg name, url, opts = {}, &block
       @pkg = Pkg.new name, url
       if block_given?
@@ -19,6 +22,13 @@ module Assetify
       assets
     end
 
+
+    #
+    # Makes a group, a namspace for the assets.
+    #
+    # group :foo do
+    # end
+    #
     def group name, &block
       set_namespace name
       instance_exec &block
@@ -40,13 +50,9 @@ module Assetify
       end
     end
 
-    # Create assets path setters
-    Assetify::ASSETS.each do |asset|
-      define_method asset do |path|
-        Opt[asset] = path
-      end
-    end
 
+    #
+    # Parse the assets.
     #
     # js "foo", "http://foo.com"
     # js "foo", "http://foo.com", :to => "/other/place"
@@ -57,6 +63,21 @@ module Assetify
       params.each { |hsh| opts.merge! hsh }
       ver = ver[0]
       (@assets ||= []) << Asset.new(method.to_sym, name, uri, ver, opts)
+    end
+
+
+    # Create Jsfile assets path setters
+    #
+    # javascript "new/path"
+    # ...
+    Assetify::ASSETS.each do |asset|
+      define_method asset do |path|
+        Opt[asset] = path
+      end
+    end
+
+    def set_namespace(name)
+      @ns = @ns.nil? ? name : "#{@ns}/#{name}"
     end
 
     class << self

@@ -20,6 +20,18 @@ describe DSL do
     a.fullpath.should eql("vendor/assets/images/foo.gif")
   end
 
+  it "should parse img nicely from link (gif)" do
+    a = Assetify::DSL.parse("img 'foo', 'foolink.gif'")[0]
+    a.should be_an Asset
+    a.fullpath.should eql("vendor/assets/images/foo.gif")
+  end
+
+  it "should parse img nicely from link (png)" do
+    a = Assetify::DSL.parse("img 'foo', 'foolink-ra.png'")[0]
+    a.should be_an Asset
+    a.fullpath.should eql("vendor/assets/images/foo.png")
+  end
+
   it "should accept a especific location with :to" do
     Dir.should_receive(:pwd).and_return("/home/nofxx/git/assetify")
     a = Assetify::DSL.parse("rb 'foo', 'foolink', :to => 'spec/rock'")[0]

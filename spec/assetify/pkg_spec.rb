@@ -38,4 +38,8 @@ describe Pkg do
     `rm -rf vendor/assets/vendor`
   end
 
+  it "should shallow paths" do
+
+
+  end
 end

@@ -4,8 +4,7 @@ require 'fileutils'
 module Assetify
   class Asset
     include Helpers
-    attr_accessor :type, :name, :url, :ns, :pkg, :ver
-    alias :ext :type
+    attr_accessor :type, :name, :url, :ns, :pkg, :ver, :ext
 
     def initialize(type, name, url, ver = nil, params={})
       raise "NoType" unless type
@@ -13,16 +12,20 @@ module Assetify
       raise "NoURL" unless url
       @type, @name = type, name.to_s
       @url = (@ver = ver) ? url.gsub(/{VERSION}/, @ver) : url
+      if @name =~ /\./
+        @name, @ext = name.split(".")
+      else
+        @ext = @type == :img ? find_ext_for(url) : @type
+      end
+
+      @pkg = params[:pkg]
       @ns = params[:ns] || ""
       @to = params[:to] || ""
-      @pkg = params[:pkg]
     end
 
     def filename
       return @filename if @filename
-      @filename = Opt[:newname] ? name : url.split("/").last
-      @filename += ".#{type}" unless @filename =~ /\.\w{1,6}$/
-      @filename
+      @filename = "#{name}.#{ext}"
     end
 
     def find_path_for txt
@@ -31,6 +34,10 @@ module Assetify
       when /css|style/ then :stylesheets
       else :images
       end
+    end
+
+    def find_ext_for file
+      file.split(".").last[0,3]
     end
 
     def path
