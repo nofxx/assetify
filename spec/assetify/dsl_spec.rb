@@ -32,6 +32,24 @@ describe DSL do
     a.fullpath.should eql("vendor/assets/images/foo.png")
   end
 
+  it "should parse js with global 'a' keyword" do
+    a = Assetify::DSL.parse("a 'foo', 'foolink.js'")[0]
+    a.should be_an Asset
+    a.fullpath.should eql("vendor/assets/javascripts/foo.js")
+  end
+
+  it "should parse css with global 'a' keyword" do
+    a = Assetify::DSL.parse("a 'foo', 'http://w.foolink/c/?foo.css'")[0]
+    a.should be_an Asset
+    a.fullpath.should eql("vendor/assets/stylesheets/foo.css")
+  end
+
+  it "should parse img with global 'a' keyword" do
+    a = Assetify::DSL.parse("a 'foo.gif', 'foolink.gif'")[0]
+    a.should be_an Asset
+    a.fullpath.should eql("vendor/assets/images/foo.gif")
+  end
+
   it "should accept a especific location with :to" do
     Dir.should_receive(:pwd).and_return("/home/nofxx/git/assetify")
     a = Assetify::DSL.parse("rb 'foo', 'foolink', :to => 'spec/rock'")[0]

@@ -63,7 +63,7 @@ TXT
     def read_jsfile
       file = File.open("Jsfile") # ruby 1.8/1.9 (ugly) fix
       code = file.send(file.respond_to?(:lines) ? :lines : :readlines).map do |line|
-        next if line =~ /^\w*\#|^#/
+        # Parse options
         if line =~ /^\w{2,3}path/
           key, val = line.split(" ")
           Opt[key.to_sym] = val
@@ -71,7 +71,7 @@ TXT
         end
         line
       end.reject(&:nil?)
-      DSL.parse code.join(";")
+      DSL.parse code.join("")
     end
 
     #
