@@ -99,6 +99,9 @@ TXT
       when /^u/
         check_param params, "update"
         find_assets(params[1]).map { |a| a.install! :force }
+      when /^c/
+        check_param params, "check"
+        find_assets(params[1]).map { |a| a.check! }
       else
         puts "Dunno how to #{params.join}."
       end

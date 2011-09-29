@@ -55,7 +55,7 @@ module Assetify
       @fullpath ||= File.join(path, filename)
     end
 
-    def check?
+    def file_exists?
       File.exists? fullpath
     end
 
@@ -75,9 +75,23 @@ module Assetify
       @ver ||= find_version(@data)
     end
 
-    def install!(force = false)
+    def header
       LINE.p "-> #{name}.#{type}"
-      if !force && check?
+    end
+
+    def check!
+      header
+      if  file_exists? # Return if file is on path
+        @data = File.read(fullpath)
+        LINE.f "#{print_version}Installed"
+      else
+        LINE.f "Not Found", :red
+      end
+    end
+
+    def install!(force = false)
+      header
+      if !force && file_exists? # Return if file is on path
         @data = File.read(fullpath)
         return LINE.f "#{print_version}Installed"
       end

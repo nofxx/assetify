@@ -18,18 +18,18 @@ On any project`s root:
     assetify
 
 
-This will create a Jsfile if not found.
+This will create a `Jsfile` if not found.
 
 
 Jsfile
 ======
 
-Just like a Gemfile, but you choose the filetype (or extension) before:
+Like a `Gemfile`, but you choose the filetype (or extension) before:
 
     type "name", "url", <"version"> or <:options>
 
     js "jquery", "http://code.jquery.com/jquery-{VERSION}.min.js", "1.6"
-    js "tipsy", "https://github.com/jaz303/tipsy/.../jquery.tipsy.js"
+    js "tipsy",  "https://github.com/jaz303/tipsy/.../jquery.tipsy.js"
 
 Stylesheets:
 
@@ -46,11 +46,11 @@ Now just run `assetify` to make sure everything is installed/up-to-date.
 Groups
 ------
 
-When using some compressor/minimizer (Jammit/Smurf...) namespaces come
-in handy:
+Use groups/namespaces to group related assets together:
 
     group "forms" do
-      js "validator", "link"
+      js "validator", url
+      js "textmask",  url
     end
 
 
@@ -59,9 +59,9 @@ This will install as "vendor/assets/javascripts/forms/validator.js"
 You can nest groups too:
 
     group "forms" do
-      js "validator", "link"
+      js "validator", url
       group "extra" do
-        js "another", "link"
+        js "another", url
       end
     end
 
