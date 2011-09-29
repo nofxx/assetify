@@ -1,7 +1,10 @@
-require 'net/http'
-require 'fileutils'
+require "net/http"
+require "fileutils"
+require "assetify/asset/pkg"
+require "assetify/asset/pathfix"
 
 module Assetify
+
   class Asset
     include Helpers
     attr_accessor :type, :name, :url, :ns, :pkg, :ver, :ext

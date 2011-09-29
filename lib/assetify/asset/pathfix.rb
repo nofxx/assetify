@@ -7,8 +7,16 @@ module Path
       matches
     end
 
-    def comm src
-      "assets_path(\"#{@ns}#{src}\", image)"
+    def sass?
+      true
+    end
+
+    def replace src
+      if sass?
+        "image-url('#{@ns}#{src}')"
+      else
+        "url('<%= image_path(#{@ns}#{src}) %>)"
+      end
     end
 
     def matches
@@ -21,8 +29,9 @@ module Path
 
     def fixed
       sprocketized = @chunk
-      @images.each do |asset|
-        sprocketized[asset] = comm asset.split("/").last #gsub(/\.|\//, "")
+      @images.each do |uri|
+        sprocketized["url(#{uri})"] = replace uri.split("/").last
+        #gsub(/\.|\//, "")
       end
       sprocketized
     end

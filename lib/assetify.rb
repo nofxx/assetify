@@ -18,13 +18,17 @@ module Assetify
   end
 end
 
-require "assetify/colored"
+# Ruby Extensions
+require "assetify/extensions/string"
+
+# Text Interface
+require "assetify/tui/term"
+require "assetify/tui/colored"
+
+# Core
 require "assetify/helpers"
 require "assetify/asset"
-require "assetify/path"
 require "assetify/dsl"
-require "assetify/pkg"
-
 
 module Assetify
   class << self
