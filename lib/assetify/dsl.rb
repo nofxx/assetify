@@ -65,6 +65,16 @@ module Assetify
       (@assets ||= []) << Asset.new(method.to_sym, name, uri, ver, opts)
     end
 
+    #
+    # Global command, detects the filetype
+    #
+    #    a "jquery", "http://...jquery.js"
+    #
+    def a name, url, *params
+      ext, *rest = url.split(".").reverse
+      send(ext, name, url)
+    end
+
 
     # Create Jsfile assets path setters
     #
@@ -76,16 +86,17 @@ module Assetify
       end
     end
 
-    def set_namespace(name)
+    def set_namespace name
       @ns = @ns.nil? ? name : "#{@ns}/#{name}"
     end
 
-    class << self
-
-      def parse io
-        new.instance_eval(io) #.assets
-      end
-
+    #
+    # DSL.parse()
+    #
+    def self.parse chunk
+      # puts "Assetify - Error Parsing 'Jsfile'."
+      # Instance eval with 2nd, 3rd args to the rescue
+      new.instance_eval(chunk, "Jsfile", 1)
     end
 
   end

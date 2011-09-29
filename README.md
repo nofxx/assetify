@@ -116,6 +116,25 @@ that returns the *first match* inside the archive. Check out libarchive
 or the pkg.rb source for more info.
 
 
+Global 'a'
+----------
+
+If the link contains the file extension, say: 'fu.com/lib.js'
+You can use just 'a' to specify each asset:
+
+
+    a  "tipsy", "http://...tipsy.js"
+    a  "tipsy", "http://...tipsy.css"
+    a  "video", "http://...video.mpeg"
+
+
+Versions
+--------
+
+Assetify first recognizes the file as text or binary.
+If the file is human readable, try a X.X.Xxx pattern match
+that if found, is used, otherwise use md5sum.
+
 
 Other
 -----
