@@ -18,9 +18,9 @@ module Assetify
     end
 
     # Fuzzy find files
-    def find_assets(filter = nil)
-      return @assets unless filter
-      @assets.select {  |a| "#{a.name}#{a.pkg}" =~ /#{filter}/ }
+    def find_assets(params = nil)
+      return Asset.all unless params
+      Asset.filter params
     end
 
     #
@@ -66,7 +66,6 @@ module Assetify
       puts "Assetify"
       bar
       Assetfile.find
-      Asset.set_all @assets = Assetfile.read
       work_on params
       bar
       puts "Done in #{Time.now - start}s"

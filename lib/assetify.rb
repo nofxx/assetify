@@ -18,6 +18,3 @@ require "assetify/cli"
 # Web Interface
 require "assetify/gui/server"
 require "assetify/gui"
-
-
-

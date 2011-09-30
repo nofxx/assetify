@@ -31,16 +31,19 @@ module Assetify
       @filename = "#{name}.#{ext}"
     end
 
+    def find_ext_for file
+      file.split(".").last[0,3]
+    end
+
+    #
+    # Find correct path to put me
+    #
     def find_path_for txt
       case txt
       when /js/  then :javascripts
       when /css|style/ then :stylesheets
       else :images
       end
-    end
-
-    def find_ext_for file
-      file.split(".").last[0,3]
     end
 
     def path
@@ -114,12 +117,15 @@ module Assetify
     end
 
     class << self
-      # Simple cache for Assetfile
-      def set_all v
-        @all = v
-      end
+      #
+      # Simple cache store, read Assetfile and dump it here to use.
+      #
       def all
-        @all
+        @all ||= Assetfile.read
+      end
+
+      def filter params
+        all.select { |a| "#{a.name}#{a.pkg}" =~ /#{params}/ }
       end
 
     end
