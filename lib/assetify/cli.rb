@@ -62,9 +62,9 @@ module Assetify
 
     def work!(params)
       start = Time.now
-      puts "Assetify"
-      bar
       Assetfile.find
+      puts "Assetify - #{Asset.all.size} assets"
+      bar
       work_on params
       bar
       puts "Done in #{Time.now - start}s"

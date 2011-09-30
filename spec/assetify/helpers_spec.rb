@@ -34,7 +34,7 @@ describe Helpers do
 
   it "should rescue fine if there isn`t version" do
     find_version("/* --------------------------------------------------------------   reset.css   * Resets default browser CSS.").
-      should be_nil
+      should eql("d356b6a91b0d16e456c7b4f79302d051")
   end
 
 end
