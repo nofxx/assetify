@@ -44,7 +44,7 @@ module Assetify
           ext, *name = path.split(".").reverse
           name = name.reverse.join(".").split("/").last
           (@assets ||= []) << Asset.new(ext, name, path, nil, {
-                                        :pkg => @pkg,
+                                          :pkg => @pkg,
                                           :to => to})# h.split(".").last,                                        )
         end
       end
@@ -71,8 +71,8 @@ module Assetify
     #    a "jquery", "http://...jquery.js"
     #
     def a name, url, *params
-      ext, *rest = url.split(".").reverse
-      send(ext, name, url)
+      extension = url.split(".").last
+      send(extension, name, url)
     end
 
 
