@@ -2,6 +2,8 @@
 # To be refactored...
 #
 module Assetify
+  LINE  = CLI.new
+
   class << self
 
     #
@@ -9,7 +11,7 @@ module Assetify
     #
     def no_assetfile!
       print "Assetfile not found, create one? [Y/n] "
-      res = gets.chomp
+      res = $stdin.gets.chomp # dont forget stdin
       unless res =~ /n|N/
         File.open("Assetfile", "w+") do |f|
           f.print <<TXT

@@ -1,6 +1,6 @@
 module Assetify
 
-  class TUI
+  class CLI
     def initialize(size = TSIZE)
       @size = size
       @chars = 0

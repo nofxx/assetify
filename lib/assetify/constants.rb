@@ -6,7 +6,6 @@ module Assetify
   }
 
   TSIZE = 80
-  LINE  = TUI.new
   ASSETS_PATH = "vendor/assets"
   ASSETS = [:javascripts, :stylesheets, :images]
   ASSETS.each do |asset|
