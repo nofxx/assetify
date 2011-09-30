@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assetify}
-  s.version = "0.7.0.rc1"
+  s.version = "1.0.0.rc1"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcos Piccinini"]
-  s.date = %q{2011-07-14}
+  s.date = %q{2011-09-30}
   s.default_executable = %q{assetify}
   s.description = %q{Downloads/updates assets based on a Jsfile. Any framework.}
   s.email = %q{x@nofxx.com}
@@ -30,18 +30,24 @@ Gem::Specification.new do |s|
     "bin/assetify",
     "lib/assetify.rb",
     "lib/assetify/asset.rb",
-    "lib/assetify/colored.rb",
+    "lib/assetify/asset/pathfix.rb",
+    "lib/assetify/asset/pkg.rb",
     "lib/assetify/dsl.rb",
+    "lib/assetify/extensions/string.rb",
+    "lib/assetify/gui/server.rb",
+    "lib/assetify/gui/views/home.html.erb",
     "lib/assetify/helpers.rb",
-    "lib/assetify/pkg.rb",
-    "lib/assetify/tui.rb",
+    "lib/assetify/tui/colored.rb",
+    "lib/assetify/tui/term.rb",
     "spec/assetify/asset_spec.rb",
     "spec/assetify/dsl_spec.rb",
     "spec/assetify/helpers_spec.rb",
+    "spec/assetify/path_spec.rb",
     "spec/assetify/pkg_spec.rb",
     "spec/assetify_spec.rb",
     "spec/fixtures/complex.tgz",
     "spec/fixtures/fancy.tgz",
+    "spec/fixtures/sassify.css",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/nofxx/assetify}
