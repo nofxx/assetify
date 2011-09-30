@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
     ".rspec",
     "Assetfile",
     "Gemfile",
+    "Gemfile.lock",
     "README.md",
     "Rakefile",
     "VERSION",
@@ -42,6 +43,7 @@ Gem::Specification.new do |s|
     "lib/assetify/gui/server.rb",
     "lib/assetify/gui/views/home.html.erb",
     "lib/assetify/helpers.rb",
+    "lib/assetify/version.rb",
     "spec/assetify/asset_spec.rb",
     "spec/assetify/dsl_spec.rb",
     "spec/assetify/helpers_spec.rb",
@@ -64,8 +66,10 @@ Thank you for installing assetify-1.0.0.
 
 Here is a few optional gems:
 
- * libarchive    -  For untar/unzip packages support
+ * libarchive    -  For untar/unzip packages
+ * minimagick    -  For image transformations
  * sass          -  For css2sass support
+
 
 We hope `assetify` saves you some time!
 

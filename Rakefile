@@ -32,8 +32,10 @@ Thank you for installing assetify-#{Assetify::VERSION}.
 
 Here is a few optional gems:
 
- * libarchive    -  For untar/unzip packages support
+ * libarchive    -  For untar/unzip packages
+ * minimagick    -  For image transformations
  * sass          -  For css2sass support
+
 
 We hope `assetify` saves you some time!
 
