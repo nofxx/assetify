@@ -4,31 +4,31 @@ describe Assetify do
 
   it "shoud read_assetfile" do
     mock_assetfile
-    Assetify.read_assetfile.should have(1).asset
+    Assetfile.read.should have(1).asset
   end
 
   it "should skip comments" do
     mock_assetfile("#\n# Oi\n#\n")
-    Assetify.read_assetfile.should be_nil
+    Assetfile.read.should be_nil
   end
 
   it "should work with versions url" do
     mock_assetfile("#\n# Oi\n#\njs 'down', 'http://js.com/down-{VERSION}.js', '1.6'")
-    Assetify.read_assetfile.first.url.should eql("http://js.com/down-1.6.js")
+    Assetfile.read.first.url.should eql("http://js.com/down-1.6.js")
   end
 
   describe "read css" do
     before do
       mock_assetfile("#\n# CSS\n#\ncss 'grid', 'http://grid.com/down'")
     end
-    let(:asset) { Assetify.read_assetfile[0] }
+    let(:asset) { Assetfile.read[0] }
 
     it "should read css" do
-      Assetify.read_assetfile.should have(1).asset
+      Assetfile.read.should have(1).asset
     end
 
     it "should read css" do
-      Assetify.read_assetfile.first.type.should eql(:css)
+      Assetfile.read.first.type.should eql(:css)
     end
 
     it "should have fullpath" do
@@ -39,7 +39,7 @@ describe Assetify do
 
   describe "readjs" do
 
-    let(:asset) { mock_assetfile; Assetify.read_assetfile[0] }
+    let(:asset) { mock_assetfile; Assetfile.read[0] }
 
     it "should be an asset" do
       asset.should be_an Assetify::Asset

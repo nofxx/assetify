@@ -12,6 +12,6 @@ module Assetify
     Opt.merge!(asset => "#{ASSETS_PATH}/#{asset}")
   end
 
-  class NoJSFile < StandardError
-  end
+  # class BadAssetfile < StandardError
+  # end
 end
