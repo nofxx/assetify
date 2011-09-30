@@ -51,10 +51,10 @@ describe DSL do
   end
 
   it "should accept a especific location with :to" do
-    Dir.should_receive(:pwd).and_return("/home/nofxx/git/assetify")
+    Dir.should_receive(:pwd).and_return("/home/user/git/assetify")
     a = Assetify::DSL.parse("rb 'foo', 'foolink', :to => 'spec/rock'")[0]
     a.should be_an Asset
-    a.fullpath.should eql("/home/nofxx/git/assetify/spec/rock/foo.rb")
+    a.fullpath.should eql("/home/user/git/assetify/spec/rock/foo.rb")
   end
 
   it "should not fail with symbols" do
@@ -127,10 +127,12 @@ describe DSL do
     end
 
     it "should read from pkg the regex" do
+      Dir.should_receive(:pwd).and_return("/home/user/git/assetify")
+
       as = Assetify::DSL.parse "pkg 'complex', 'http://complex.tgz' do; dir 'images/', :to => 'images/complex/'; end"
       as[0].name.should eql("two")
       as[0].ext.should eql("png")
-      as[0].fullpath.should eql("/home/nofxx/git/assetify/images/complex/two.png")
+      as[0].fullpath.should eql("/home/user/git/assetify/images/complex/two.png")
     end
 
   end
