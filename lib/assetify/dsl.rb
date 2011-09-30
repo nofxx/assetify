@@ -2,8 +2,7 @@ module Assetify
 
   class DSL
     attr_reader :assets
-
-
+    
     #
     # Makes a pkg, a gz/tar/zip asset/
     #
@@ -21,7 +20,6 @@ module Assetify
       end
       assets
     end
-
 
     #
     # Makes a group, a namspace for the assets.
@@ -43,13 +41,11 @@ module Assetify
           next if path =~ /\/$/ # dont let dirs get in... ugly
           ext, *name = path.split(".").reverse
           name = name.reverse.join(".").split("/").last
-          (@assets ||= []) << Asset.new(ext, name, path, nil, {
-                                          :pkg => @pkg,
-                                          :to => to})# h.split(".").last,                                        )
+          @assets ||= []
+          @assets << Asset.new(ext, name, path, nil, { :pkg => @pkg , :to => to } )
         end
       end
     end
-
 
     #
     # Parse the assets.
@@ -62,7 +58,8 @@ module Assetify
       opts = {:ns => @ns, :pkg => @pkg}
       params.each { |hsh| opts.merge! hsh }
       ver = ver[0]
-      (@assets ||= []) << Asset.new(method.to_sym, name, uri, ver, opts)
+      @assets ||= []
+      @assets << Asset.new(method.to_sym, name, uri, ver, opts)
     end
 
     #
@@ -75,7 +72,7 @@ module Assetify
       send(extension, name, url)
     end
 
-
+    #
     # Create Assetfile assets path setters
     #
     # javascript "new/path"
