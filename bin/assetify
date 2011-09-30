@@ -6,7 +6,7 @@ require 'assetify'
 
 opt = OptionParser.new do |o|
     o.banner = <<BANNER
-Bugs Bunny - RabbitMQ Playground
+This is Assetify! What we`re going to do?
 
 Usage: #{File.basename($0)} command [args]
 
