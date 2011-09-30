@@ -18,11 +18,11 @@ On any project`s root:
     assetify
 
 
-This will create a `Jsfile` if not found.
+This will create a `Assetfile` if not found.
 
 
-Jsfile
-======
+Assetfile
+=========
 
 Like a `Gemfile`, but you choose the filetype (or extension) before:
 

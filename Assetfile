@@ -1,5 +1,5 @@
 #
-# Assetify Jsfile
+# Assetify Assetfile
 #
 
 rb "colored", "https://github.com/defunkt/colored/raw/master/lib/colored.rb", :to => "lib/assetify"

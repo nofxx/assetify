@@ -7,8 +7,8 @@ require 'assetify'
 include Assetify
 
 
-def mock_jsfile(d = 'js "cool", "http://cool.js/down"')
-  File.should_receive(:open).once.with("Jsfile").and_return(d)
+def mock_assetfile(d = 'js "cool", "http://cool.js/down"')
+  File.should_receive(:open).once.with("Assetfile").and_return(d)
 end
 
 # Requires supporting files with custom matchers and macros, etc,

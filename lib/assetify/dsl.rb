@@ -76,7 +76,7 @@ module Assetify
     end
 
 
-    # Create Jsfile assets path setters
+    # Create Assetfile assets path setters
     #
     # javascript "new/path"
     # ...
@@ -94,9 +94,9 @@ module Assetify
     # DSL.parse()
     #
     def self.parse chunk
-      # puts "Assetify - Error Parsing 'Jsfile'."
+      # puts "Assetify - Error Parsing 'Assetfile'."
       # Instance eval with 2nd, 3rd args to the rescue
-      new.instance_eval(chunk, "Jsfile", 1)
+      new.instance_eval(chunk, "Assetfile", 1)
     end
 
   end

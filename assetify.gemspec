@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ["Marcos Piccinini"]
   s.date = %q{2011-09-30}
   s.default_executable = %q{assetify}
-  s.description = %q{Downloads/updates assets based on a Jsfile. Any framework.}
+  s.description = %q{Downloads/updates assets based on a Assetfile. Any framework.}
   s.email = %q{x@nofxx.com}
   s.executables = ["assetify"]
   s.extra_rdoc_files = [
@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
     ".rspec",
     "Gemfile",
     "Gemfile.lock",
-    "Jsfile",
+    "Assetfile",
     "README.md",
     "Rakefile",
     "VERSION",

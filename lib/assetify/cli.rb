@@ -5,16 +5,16 @@ module Assetify
   class << self
 
     #
-    # Jsfile stuff
+    # Assetfile stuff
     #
-    def no_jsfile!
-      print "Jsfile not found, create one? [Y/n] "
+    def no_assetfile!
+      print "Assetfile not found, create one? [Y/n] "
       res = gets.chomp
       unless res =~ /n|N/
-        File.open("Jsfile", "w+") do |f|
+        File.open("Assetfile", "w+") do |f|
           f.print <<TXT
 #
-# #{Dir.pwd.split('/').last.capitalize} Jsfile
+# #{Dir.pwd.split('/').last.capitalize} Assetfile
 #
 
 js  :jquery, "http://jquery.com"
@@ -26,17 +26,17 @@ end
 
 TXT
         end
-        puts "Jsfile created!"
+        puts "Assetfile created!"
         exit 0
       end
     end
 
-    def find_jsfile
-      no_jsfile! unless File.exists?("Jsfile")
+    def find_assetfile
+      no_assetfile! unless File.exists?("Assetfile")
     end
 
-    def read_jsfile
-      file = File.open("Jsfile") # ruby 1.8/1.9 (ugly) fix
+    def read_assetfile
+      file = File.open("Assetfile") # ruby 1.8/1.9 (ugly) fix
       code = file.send(file.respond_to?(:lines) ? :lines : :readlines).map do |line|
         # Parse options
         if line =~ /^\w{2,3}path/
@@ -98,8 +98,8 @@ TXT
       start = Time.now
       puts "Assetify"
       bar
-      find_jsfile
-      Asset.set_all @assets = read_jsfile
+      find_assetfile
+      Asset.set_all @assets = read_assetfile
       work_on params
       bar
       puts "Done in #{Time.now - start}s"
