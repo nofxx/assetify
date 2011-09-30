@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'bundler'
+require './lib/assetify/version'
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
@@ -18,9 +19,26 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/nofxx/assetify"
   gem.license = "MIT"
   gem.summary = %Q{Downloads/updates assets. Any framework.}
-  gem.description = %Q{Downloads/updates assets based on a Assetfile. Any framework.}
+  gem.description = %Q{Downloads/updates assets based on an Assetfile. Any framework.}
   gem.email = "x@nofxx.com"
-  gem.authors = ["Marcos Piccinini"]
+  gem.authors = ["Marcos Piccinini", "Rafael Barbosa"]
+  gem.post_install_message = <<-POST_INSTALL_MESSAGE
+
+A #{'-' * 60} A
+
+                  *   A  S  S  E  T  I  F  Y   *
+
+Thank you for installing assetify-#{Assetify::VERSION}.
+
+Here is a few optional gems:
+
+ * libarchive    -  For untar/unzip packages support
+ * sass          -  For css2sass support
+
+We hope `assetify` saves you some time!
+
+A #{'-' * 60} A
+POST_INSTALL_MESSAGE
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
@@ -38,8 +56,8 @@ end
 
 task :default => :spec
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
+require 'rdoc/task'
+RDoc::Task.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
   rdoc.rdoc_dir = 'rdoc'

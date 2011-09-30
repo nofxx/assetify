@@ -5,13 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assetify}
-  s.version = "1.0.0.rc1"
+  s.version = "1.0.0"
 
-  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Marcos Piccinini"]
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.authors = ["Marcos Piccinini", "Rafael Barbosa"]
   s.date = %q{2011-09-30}
   s.default_executable = %q{assetify}
-  s.description = %q{Downloads/updates assets based on a Assetfile. Any framework.}
+  s.description = %q{Downloads/updates assets based on an Assetfile. Any framework.}
   s.email = %q{x@nofxx.com}
   s.executables = ["assetify"]
   s.extra_rdoc_files = [
@@ -20,9 +20,8 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
     ".rspec",
-    "Gemfile",
-    "Gemfile.lock",
     "Assetfile",
+    "Gemfile",
     "README.md",
     "Rakefile",
     "VERSION",
@@ -32,13 +31,17 @@ Gem::Specification.new do |s|
     "lib/assetify/asset.rb",
     "lib/assetify/asset/pathfix.rb",
     "lib/assetify/asset/pkg.rb",
+    "lib/assetify/assetfile.rb",
+    "lib/assetify/cli.rb",
+    "lib/assetify/cli/colored.rb",
+    "lib/assetify/cli/term.rb",
+    "lib/assetify/constants.rb",
     "lib/assetify/dsl.rb",
     "lib/assetify/extensions/string.rb",
+    "lib/assetify/gui.rb",
     "lib/assetify/gui/server.rb",
     "lib/assetify/gui/views/home.html.erb",
     "lib/assetify/helpers.rb",
-    "lib/assetify/tui/colored.rb",
-    "lib/assetify/tui/term.rb",
     "spec/assetify/asset_spec.rb",
     "spec/assetify/dsl_spec.rb",
     "spec/assetify/helpers_spec.rb",
@@ -52,6 +55,22 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/nofxx/assetify}
   s.licenses = ["MIT"]
+  s.post_install_message = %q{
+A ------------------------------------------------------------ A
+
+                  *   A  S  S  E  T  I  F  Y   *
+
+Thank you for installing assetify-1.0.0.
+
+Here is a few optional gems:
+
+ * libarchive    -  For untar/unzip packages support
+ * sass          -  For css2sass support
+
+We hope `assetify` saves you some time!
+
+A ------------------------------------------------------------ A
+}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Downloads/updates assets. Any framework.}
@@ -65,17 +84,23 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, [">= 1.0.0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
       s.add_development_dependency(%q<webmock>, [">= 0"])
+      s.add_development_dependency(%q<sinatra>, [">= 0"])
+      s.add_development_dependency(%q<libarchive>, [">= 0"])
     else
       s.add_dependency(%q<rspec>, [">= 2.3.0"])
       s.add_dependency(%q<bundler>, [">= 1.0.0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<webmock>, [">= 0"])
+      s.add_dependency(%q<sinatra>, [">= 0"])
+      s.add_dependency(%q<libarchive>, [">= 0"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 2.3.0"])
     s.add_dependency(%q<bundler>, [">= 1.0.0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<webmock>, [">= 0"])
+    s.add_dependency(%q<sinatra>, [">= 0"])
+    s.add_dependency(%q<libarchive>, [">= 0"])
   end
 end
 
