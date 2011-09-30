@@ -9,7 +9,6 @@ module Assetify
     #
     # Text Interface
     #
-
     def check_param params, string
       unless string.include? params[0]
         puts "Did you mean #{string}?"

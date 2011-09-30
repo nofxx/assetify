@@ -8,7 +8,12 @@ module Assetify
     #
     def find_version(txt)
       return unless txt
-      txt.binary? ? find_version_from_bin(txt) : find_version_from_txt(txt)
+      if txt.binary?
+        find_version_from_bin(txt)
+      else
+        v = find_version_from_txt(txt)
+        v && v[0] =~ /(\d+)\.(\d+).*/ ? v :  find_version_from_bin(txt)
+      end
     end
 
     private
@@ -24,14 +29,15 @@ module Assetify
       Digest::MD5.hexdigest blob
     end
 
+    #
+    # Downloads assets
+    #
     def download url_str, limit = 10
       raise ArgumentError, 'HTTP redirect too deep' if limit == 0
       uri = URI.parse url_str
-      # # response = ""
       http = Net::HTTP.start(uri.host, :use_ssl => url_str =~ /https/)# do |http|
       response = http.get(uri.path.empty? ? "/" : uri.path)
-      # # end
-      # response = Net::HTTP.get_response(URI.parse(url_str) )# ,:use_ssl => url_str =~ /https/ )
+
       case response
       when Net::HTTPSuccess     then @data = response
       when Net::HTTPRedirection then download(redirect_url(response), limit - 1)
@@ -49,7 +55,7 @@ module Assetify
       end
     end
 
-    def write(binary)
+    def write binary
       FileUtils.mkdir_p path unless  Dir.exists?(path)
       File.open(fullpath, "w") { |f| f.puts(binary) }
     end

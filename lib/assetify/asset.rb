@@ -65,22 +65,28 @@ module Assetify
       File.exists? fullpath
     end
 
+    def data
+      # Get data, from a pkg or download directly
+      @data ||= @pkg ? @pkg.get(url, :force).values.first : get_data(url)
+    end
+
+    #
+    # Asset version
+    #
+    def ver
+      return nil unless @data
+      @ver ||= find_version(@data)
+    end
+
     def print_version
       return "" unless ver
       ver_str = ver.size > 10 ? ver[0..10] : ver[0]
       "v#{ver_str} "
     end
 
-    def data
-      # Get data, from a pkg or download directly
-      @data ||= @pkg ? @pkg.get(url, :force).values.first : get_data(url)
-    end
-
-    def ver
-      return nil unless @data
-      @ver ||= find_version(@data)
-    end
-
+    #
+    # Prints info about the asset (TODO: move this to cli...)
+    #
     def header
       LINE.p "-> #{name}.#{type}"
     end
@@ -95,6 +101,9 @@ module Assetify
       end
     end
 
+    #
+    # Write down asset to disk
+    #
     def install!(force = false)
       header
       if !force && file_exists? # Return if file is on path
