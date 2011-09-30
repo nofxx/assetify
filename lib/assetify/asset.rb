@@ -113,6 +113,16 @@ module Assetify
 
     end
 
+    class << self
+      # Simple cache for Jsfile
+      def self.set_all v
+        @all = v
+      end
+      def self.all
+        @all
+      end
+    end
+
   end
 
 end
