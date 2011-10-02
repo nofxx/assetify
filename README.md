@@ -174,6 +174,13 @@ Out of the box support for rails 3.1, defaults to 'vendor/assets'.
 Rails 3.0< users should change the options as above.
 
 
+Emacs
+-----
+
+Use ruby syntax for nice colors:
+
+    (add-to-list 'auto-mode-alist '("Assetfile$" . ruby-mode))
+
 
 Contributing
 ------------
