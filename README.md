@@ -83,7 +83,7 @@ Files will be written with the namespace "fancy":
 
 You can pass :shallow => true to avoid the namespace:
 
-    pkg "fancy", "http://to.tgz.or.zip", :shallow => true do
+    pkg "fancy", "http://to.tgz.or.zip", shallow: true do
 
 Results in:
 
@@ -102,8 +102,8 @@ dealing with pkgs:
 
     pkg "complexfw", "link" do
       js  "complex.min.js"
-      dir "images/", :to => "images/complexfw"
-      # Another option, treat all as a type:
+      dir "images/", to: "images/complexfw"
+      # Another option, treat`em all as filetype:
       dir "src/", :as => :js
     end
 
@@ -142,7 +142,7 @@ Other
 Set a different location per file:
 
 
-    js "other", "http://lib.../other.js", :to => "different/path"
+    js "other", "http://lib.../other.js", to: "different/path"
 
 Filename will be: ./different/path/other.js
 This works for namespaces too, change "to" with "ns".
@@ -172,6 +172,31 @@ Rails
 
 Out of the box support for rails 3.1, defaults to 'vendor/assets'.
 Rails 3.0< users should change the options as above.
+
+
+Sprockets
+=========
+
+Or The Rails Asset Pipeline.
+
+It'll be nice to bundle those little dependencies, but change the source
+on every update...pita.
+
+CSS will be converted to sass, scss or erb, your choice.
+And every path corrected to use the pipeline.
+
+Jquery Mobile example:
+
+    pkg :mobile, "http://code.jquery.com....zip", shallow: true do
+      js  "mobile", "min.js"
+      css "mobile", "min.css", :as => :sass
+      img "images/*", :to => "mobile"
+    end
+
+
+//= require 'lib'
+
+On application.css.
 
 
 Emacs

@@ -50,10 +50,10 @@ describe Pkg do
 
   it "should download pkg only once" do
     as = Pkg.new "fancy", "/tmp/fancy/fancy.tgz"
-    as.should_receive(:write).exactly(1).times
 
-    as.get("fancy/fancy.css").should eql("fancy/fancy.css" => "// Fancy css!\n\n#foo {\n  padding: 10px;\n}\n")
-    as.get("fancy/fancy.css").should eql("fancy/fancy.css" => "// Fancy css!\n\n#foo {\n  padding: 10px;\n}\n")
-    as.get("fancy/fancy.css").should eql("fancy/fancy.css" => "// Fancy css!\n\n#foo {\n  padding: 10px;\n}\n")
+    as.should_not_receive(:write)
+
+    as.get("fancy/fancy.css")
+    as.get("fancy/fancy.css")
   end
 end
