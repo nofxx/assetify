@@ -42,21 +42,23 @@ module Assetify
       when Net::HTTPSuccess     then @data = response
       when Net::HTTPRedirection then download(redirect_url(response), limit - 1)
       else
-        puts "response code: #{response.code}!"
+        puts " - fail - response code: #{response.code}!"
         response.error!
+        nil
       end
     end
 
     def get_data(str)
       @data = if str =~ /http/
-        download(str).body
+        data = download(str)
+        data ? data.body : nil
       else
         File.open(str)
       end
     end
 
     def write binary
-      FileUtils.mkdir_p path unless  Dir.exists?(path)
+      FileUtils.mkdir_p path unless Dir.exists?(path)
       File.open(fullpath, "w") { |f| f.puts(binary) }
     end
 

@@ -2,7 +2,7 @@ module Assetify
 
   class DSL
     attr_reader :assets
-    
+
     #
     # Makes a pkg, a gz/tar/zip asset/
     #
@@ -16,7 +16,7 @@ module Assetify
         instance_exec &block
         @ns = @pkg = nil
       else
-        @pkg.unpack_to_vendor
+        @pkg.unpack_all
       end
       assets
     end

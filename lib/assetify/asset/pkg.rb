@@ -8,14 +8,14 @@ module Assetify
 
     PATH = "/tmp/"
 
-    def initialize(name, url)
+    def initialize(name, url, opts={})
       @name = name
       @pkgname = url.split("/").last
       @url = url
     end
 
     def path
-      File.join(PATH, name)
+      File.join(PATH, name.to_s)
     end
 
     def fullpath
@@ -37,12 +37,15 @@ module Assetify
 
     def get(file, force = false)
       # Download and write to tmp if force or doensnt exists
-      write(get_data(url)) if force || !File.exists?(File.join(fullpath))
+      write(get_data(url)) if force || !File.exists?(fullpath)
       # Better way when multiple are found....?
       read_from_pkg(file)
     end
 
-    def unpack_to_vendor
+    #
+    # Used when pkgs doesn't provide a block, just dump it somewhere.
+    #
+    def unpack_all
       read_from_pkg.each do |file, data|
         fname, *dir = file =~ /\/$/ ? [nil, file] : file.split("/").reverse
         dir = File.join Opt[:vendor], dir.reverse.join("/")

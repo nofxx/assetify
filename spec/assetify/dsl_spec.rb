@@ -113,7 +113,7 @@ describe DSL do
 
     it "should unpack to vendor if no block given" do
       Pkg.should_receive(:new).with("fancy", "http://fancy.zip").and_return(mp = mock(Pkg))
-      mp.should_receive :unpack_to_vendor
+      mp.should_receive :unpack_all
       a = Assetify::DSL.parse "pkg 'fancy', 'http://fancy.zip'"
     end
   end
