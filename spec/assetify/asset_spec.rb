@@ -28,6 +28,43 @@ describe Asset do
       as.instance_variable_set "@data", "\u001F\x8B\b\u0000\xF5\u0000"
       as.print_version.should eql("v537c8396f74 ")
     end
+
+  end
+
+  describe "Namespaced" do
+
+    let (:as) { Asset.new :js, "sweet", "http://candy.js", nil, :ns => "spacemonkey" }
+
+    it "should have name" do
+      as.ns.should eql("spacemonkey")
+    end
+
+  end
+
+  describe "On Package" do
+
+    let (:as) { Asset.new :js, "sweet", "http://candy.js", nil, :pkg => "firefly" }
+
+    it "should have name" do
+      as.pkg.should eql("firefly")
+    end
+
+  end
+
+  describe "Class methods" do
+
+    it "should have all assets on hand" do
+      Asset.all.should have(2).assets
+    end
+
+    it "should find assets" do
+      Asset.filter("color").should have(1).assets
+    end
+
+    it "should find assets by pkg" do
+      Asset.filter("mobile").should have(1).assets
+    end
+
   end
 
 end

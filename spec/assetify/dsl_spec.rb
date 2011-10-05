@@ -63,6 +63,22 @@ describe DSL do
     a.name.should eql("jnice")
   end
 
+  describe "Templates and Pathfixes" do
+
+    it "should parse css to erb nicely" do
+      a = Assetify::DSL.parse("css 'foo', 'foolink', :as => :erb")[0]
+      a.should be_an Asset
+      a.fullpath.should eql("vendor/assets/stylesheets/foo.css.erb")
+    end
+
+    it "should parse css to sass nicely" do
+      a = Assetify::DSL.parse("css 'foo', 'foolink', :as => :sass")[0]
+      a.should be_an Asset
+      a.fullpath.should eql("vendor/assets/stylesheets/foo.css.sass")
+    end
+
+  end
+
   describe "Group Assets" do
 
     it "should group and use a namespace" do

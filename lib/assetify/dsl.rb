@@ -14,15 +14,16 @@ module Assetify
       if block_given?
         set_namespace name unless opts[:shallow]
         instance_exec &block
-        @ns = @pkg = nil
       else
         @pkg.unpack_all
       end
       assets
+    ensure
+      @ns = @pkg = nil
     end
 
     #
-    # Makes a group, a namspace for the assets.
+    # Makes a group, a namespace for the assets.
     #
     # group :foo do
     # end
@@ -32,10 +33,20 @@ module Assetify
       instance_exec &block
       @ns = nil
       assets
+    ensure
+      @ns = nil
     end
 
-    def dir regex, to
-      to = to[:to]
+    #
+    # Makes assets out of the entire directory
+    #
+    # pkg :foo do
+    #   dir "images/*"
+    #   dir "images/*jpg"
+    # end
+    #
+    def dir regex, params = {}
+      to = params[:to] || @pkg
       if @pkg
         @pkg.get(regex).each do |path, data|
           next if path =~ /\/$/ # dont let dirs get in... ugly
@@ -82,6 +93,8 @@ module Assetify
         Opt[asset] = path
       end
     end
+
+    private
 
     def set_namespace name
       @ns = @ns.nil? ? name : "#{@ns}/#{name}"
