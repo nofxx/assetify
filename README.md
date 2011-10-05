@@ -1,7 +1,9 @@
 Assetify
 ========
 
-Downloads/updates assets. Any framework.
+Downloads/updates assets. Any framework*.
+
+* But if you're using sprockets/rails pipeline there's more sugar.
 
 
 Install
@@ -24,12 +26,31 @@ This will create a `Assetfile` if not found.
 Assetfile
 =========
 
-Like a `Gemfile`, but you choose the filetype (or extension) before:
+Like a `Gemfile`, but with fewer chars. Only one actually.
+
+
+Behold the 'a'
+--------------
+
+    a  "tipsy", "http://...tipsy.js"
+    a  "tipsy", "http://...tipsy.css"
+    a  "video", "http://...video.mpeg"
+
+
+There's also an alias 'asset' for 'a', if you enjoy typing.
+
+
+    asset "tipsy", "http://...tipsy.js"
+
+
+
+You can choose the filetype (or extension) before too:
 
     type "name", "url", <"version"> or <:options>
 
     js "jquery", "http://code.jquery.com/jquery-{VERSION}.min.js", "1.6"
     js "tipsy",  "https://github.com/jaz303/tipsy/.../jquery.tipsy.js"
+
 
 Stylesheets:
 
@@ -116,24 +137,71 @@ that returns the *first match* inside the archive. Check out libarchive
 or the pkg.rb source for more info.
 
 
-Global 'a'
+Sprockets
+=========
+
+Or The Rails 3.1+ Asset Pipeline.
+
+Wouldn`t it be nice to bundle all those little dependencies and tiny
+stylesheets to avoid extra includes, but, change the source on every
+update...PITA. No worries:
+
+CSS will be converted to sass, scss or erb (defaults), your choice.
+And every path corrected to use the pipeline.
+
+Jquery Mobile example:
+
+    pkg :mobile, "http://code.jquery.com....zip", shallow: true do
+      js  "mobile", "mobile.js"
+      css "mobile", "mobile.css", :as => :sass
+      dir "images/*"
+    end
+
+You just need:
+
+    //= require 'mobile'
+
+On application.css and application.js.
+
+Images will be in 'vendor/assets/mobile/*', and the paths inside
+mobile.css corrected to 'image-url(mobile/*)', or <%%> if I`ve had
+choose erb.
+
+This means you can have any third party library in the format
+you like, always up-to-date. Easy to copy and customize parts
+of the code.
+
+
+foo2bar
+-------
+
+You can convert your assets to coffescript, sass or scss:
+
+     js "fulib", "http....", :as => :coffee
+     css "1140", "http....", :as => :sass
+     css "1140", "http....", :as => :scss
+
+Note: You do need aditional stuff for this.
+Gem 'sass' and/or node`s 'js2coffee' (install via npm).
+
+
+minimagick
 ----------
 
-If the link contains the file extension, say: 'fu.com/lib.js'
-You can use just 'a' to specify each asset:
+Preprocess images is also possible:
 
 
-    a  "tipsy", "http://...tipsy.js"
-    a  "tipsy", "http://...tipsy.css"
-    a  "video", "http://...video.mpeg"
+    png "logo", "http....", :as => :jpg, :quality => 75
 
+
+Note: Need to install 'imagemagick' and 'minimagick' gem for this.
 
 Versions
 --------
 
-Assetify first recognizes the file as text or binary.
-If the file is human readable, try a X.X.Xxx pattern match
-that if found, is used, otherwise use md5sum.
+Assetify first tries to recognizes the file as text or binary.
+If the file is human readable, try a (X.X.Xxx?) pattern match
+that if found it`s used. Otherwise go for md5sum.
 
 
 Other
@@ -172,31 +240,6 @@ Rails
 
 Out of the box support for rails 3.1, defaults to 'vendor/assets'.
 Rails 3.0< users should change the options as above.
-
-
-Sprockets
-=========
-
-Or The Rails Asset Pipeline.
-
-It'll be nice to bundle those little dependencies, but change the source
-on every update...pita.
-
-CSS will be converted to sass, scss or erb, your choice.
-And every path corrected to use the pipeline.
-
-Jquery Mobile example:
-
-    pkg :mobile, "http://code.jquery.com....zip", shallow: true do
-      js  "mobile", "min.js"
-      css "mobile", "min.css", :as => :sass
-      img "images/*", :to => "mobile"
-    end
-
-
-//= require 'lib'
-
-On application.css.
 
 
 Emacs
