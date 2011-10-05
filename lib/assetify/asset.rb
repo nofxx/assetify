@@ -21,9 +21,7 @@ module Assetify
         @ext = @type == :img ? find_ext_for(url) : @type
       end
 
-      @pkg = params[:pkg]
-      @as  = params[:as]
-      @ns  = params[:ns] || ""
+      @pkg, @as, @ns = params[:pkg], params[:as], params[:ns]
       @to  = params[:to] || ""
     end
 
@@ -74,7 +72,7 @@ module Assetify
       @data = @pkg ? @pkg.get(url, :force).values.first : get_data(url)
 
       # Compile/fix paths if asked to
-      @data = Pathfix.new(@data, @as, @pkg || @ns).fix if @as
+      @data = Pathfix.new(@data, @as, @ns).fix if @as
 
       @data
     end
