@@ -1,19 +1,8 @@
 module Assetify
   class Pathfix
 
-    def initialize chunk, ns = nil
-      @chunk = chunk
-      @ns = ns
-      matches
-    end
-
-    def sass?
-      true
-    end
-
-
-
-    def matches
+    def initialize chunk, as = :erb
+      @chunk, @as = chunk, as
       @images = @chunk.scan(/url\((.*)\)/).flatten
     end
 
@@ -21,45 +10,29 @@ module Assetify
       @images
     end
 
-    def replace src, tmpl
-      if tmpl == :erb
+    def replace src
+      if @as == :erb
         "url('<%= image_path(#{@ns}#{src}) %>')"
       else
         "image-url('#{@ns}#{src}')"
       end
     end
 
-    def fix tmpl
-      unless tmpl == :erb
-        as tmpl
-      end
-      sprocketized = @chunk
+    def fix
+      chunk = @as != :erb ? tmpl_chunk : @chunk
       @images.each do |uri|
-        sprocketized["url(#{uri})"] = replace uri.split("/").last, tmpl
-        #gsub(/\.|\//, "")
+        chunk["url(#{uri})"] = replace uri.split("/").last
       end
-      sprocketized
+      chunk
     end
 
-    def as tmpl = :sass
+    def tmpl_chunk
       begin
         require 'sass/css'
-        @chunk = Sass::CSS.new(@chunk).render(tmpl)
+        Sass::CSS.new(@chunk).render(@as)
       rescue Sass::SyntaxError => e
         @error = e
       end
-    end
-
-    def as_sass
-      fix :sass
-    end
-
-    def as_scss
-      fix :scss
-    end
-
-    def as_erb
-      fix :erb
     end
 
   end
