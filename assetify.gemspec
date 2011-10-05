@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assetify}
-  s.version = "1.0.0"
+  s.version = "2.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcos Piccinini", "Rafael Barbosa"]
-  s.date = %q{2011-09-30}
+  s.date = %q{2011-10-05}
   s.default_executable = %q{assetify}
   s.description = %q{Downloads/updates assets based on an Assetfile. Any framework.}
   s.email = %q{x@nofxx.com}
@@ -52,6 +52,7 @@ Gem::Specification.new do |s|
     "spec/assetify_spec.rb",
     "spec/fixtures/complex.tgz",
     "spec/fixtures/fancy.tgz",
+    "spec/fixtures/mobile.css",
     "spec/fixtures/sassify.css",
     "spec/spec_helper.rb"
   ]
@@ -62,7 +63,7 @@ A ------------------------------------------------------------ A
 
                   *   A  S  S  E  T  I  F  Y   *
 
-Thank you for installing assetify-1.0.0.
+Thank you for installing assetify-2.0.0.
 
 Here is a few optional gems:
 
