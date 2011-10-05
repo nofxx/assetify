@@ -63,7 +63,9 @@ module Assetify
     def work!(params)
       start = Time.now
       Assetfile.find
-      puts "Assetify - #{Asset.all.size} assets"
+      print "Assetify - #{Asset.all.size} assets"
+      print " | #{params[1..-1].join(' . ')}" if params[1]
+      puts " |"
       bar
       work_on params
       bar
