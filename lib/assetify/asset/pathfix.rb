@@ -1,29 +1,33 @@
 module Assetify
   class Pathfix
 
-    def initialize chunk, as = :erb
-      @chunk, @as = chunk, as
-      @images = @chunk.scan(/url\((.*)\)/).flatten
+    def initialize chunk, as = :erb, ns = nil
+      @chunk, @as, @ns = chunk, as, ns
+      @images = scan_images
     end
 
     def images
       @images
     end
 
+    def scan_images
+      @chunk.scan(/url\(([a-zA-Z0-9\/\_\-\.]*\.\w+)\)/xo).flatten
+    end
+
     def replace src
+      fpath = @ns ? "#{@ns}/#{src}" : src
       if @as == :erb
-        "url('<%= image_path(#{@ns}#{src}) %>')"
+        "url('<%= image_path('#{fpath}') %>')"
       else
-        "image-url('#{@ns}#{src}')"
+        "image-url('#{fpath}')"
       end
     end
 
     def fix
-      chunk = @as != :erb ? tmpl_chunk : @chunk
-      @images.each do |uri|
-        chunk["url(#{uri})"] = replace uri.split("/").last
+      @images.each do |path|
+        @chunk["url(#{path})"] = replace path.split("/").last
       end
-      chunk
+      @as != :erb ? tmpl_chunk : @chunk
     end
 
     def tmpl_chunk

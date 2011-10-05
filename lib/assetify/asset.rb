@@ -7,7 +7,7 @@ module Assetify
 
   class Asset
     include Helpers
-    attr_accessor :type, :name, :url, :ns, :pkg, :ver, :ext
+    attr_accessor :type, :name, :url, :ns, :pkg, :ver, :ext, :as
 
     def initialize(type, name, url, ver = nil, params={})
       raise "NoType" unless type
@@ -22,13 +22,16 @@ module Assetify
       end
 
       @pkg = params[:pkg]
-      @ns = params[:ns] || ""
-      @to = params[:to] || ""
+      @as  = params[:as]
+      @ns  = params[:ns] || ""
+      @to  = params[:to] || ""
     end
 
     def filename
       return @filename if @filename
       @filename = "#{name}.#{ext}"
+      @filename += ".#{as}" if as
+      @filename
     end
 
     def find_ext_for file
@@ -66,8 +69,14 @@ module Assetify
     end
 
     def data
+      return @data if @data
       # Get data, from a pkg or download directly
-      @data ||= @pkg ? @pkg.get(url, :force).values.first : get_data(url)
+      @data = @pkg ? @pkg.get(url, :force).values.first : get_data(url)
+
+      # Compile/fix paths if asked to
+      @data = Pathfix.new(@data, @as, @pkg || @ns).fix if @as
+
+      @data
     end
 
     #
@@ -134,7 +143,10 @@ module Assetify
       end
 
       def filter params
-        all.select { |a| "#{a.name}#{a.pkg}" =~ /#{params}/ }
+        all.select do |a|
+          blob = "#{a.name}#{a.pkg.name if a.pkg}"
+          blob.include? params
+        end
       end
 
     end
