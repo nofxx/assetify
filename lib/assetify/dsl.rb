@@ -46,14 +46,13 @@ module Assetify
     # end
     #
     def dir regex, params = {}
-      to = params[:to] || @pkg
+      to = params[:to]
       if @pkg
         @pkg.get(regex).each do |path, data|
           next if path =~ /\/$/ # dont let dirs get in... ugly
           ext, *name = path.split(".").reverse
           name = name.reverse.join(".").split("/").last
-          @assets ||= []
-          @assets << Asset.new(ext, name, path, nil, { :pkg => @pkg , :to => to } )
+          create_asset(ext, name, path, nil, { :to => to } )
         end
       end
     end
@@ -66,11 +65,10 @@ module Assetify
     #
     def method_missing method, name, uri, *params
       params, ver = params.partition { |param| param.is_a?(Hash) }
-      opts = {:ns => @ns, :pkg => @pkg}
+      opts = {}
       params.each { |hsh| opts.merge! hsh }
       ver = ver[0]
-      @assets ||= []
-      @assets << Asset.new(method.to_sym, name, uri, ver, opts)
+      create_asset(method.to_sym, name, uri, ver, opts)
     end
 
     #
@@ -84,7 +82,7 @@ module Assetify
     end
 
     #
-    # Create Assetfile assets path setters
+    # Creates Assetfile assets path setters
     #
     # javascript "new/path"
     # ...
@@ -95,6 +93,16 @@ module Assetify
     end
 
     private
+
+    #
+    # Helper to create asset with correct options
+    #
+    def create_asset(ext, name, path, ver, opts = {})
+      opts.merge! ({pkg: @pkg, ns: @ns })
+      @assets ||= []
+      @assets << Asset.new(ext, name, path, ver, opts)
+    end
+
 
     def set_namespace name
       @ns = @ns.nil? ? name : "#{@ns}/#{name}"

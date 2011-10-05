@@ -115,6 +115,12 @@ describe DSL do
       a[0].fullpath.should eql("vendor/assets/javascripts/fancy/foo.js")
     end
 
+    it "should use name as namespace too" do
+      a = Assetify::DSL.parse "pkg 'complex', '/tmp/complex/complex.tgz' do; dir 'images/*'; end"
+      a.should have(3).assets
+      a[0].fullpath.should eql("vendor/assets/images/complex/two.png")
+    end
+
     it "should accept shallow too" do
       a = Assetify::DSL.parse "pkg 'fancy', 'http://fancy.zip', :shallow => true do; js 'foo', 'foolink'; end"
       a[0].should be_an Asset
