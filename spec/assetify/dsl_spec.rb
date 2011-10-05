@@ -38,6 +38,12 @@ describe DSL do
     a.fullpath.should eql("vendor/assets/javascripts/foo.js")
   end
 
+  it "should parse js with global 'asset' alias too" do
+    a = Assetify::DSL.parse("asset 'foo', 'foolink.js'")[0]
+    a.should be_an Asset
+    a.fullpath.should eql("vendor/assets/javascripts/foo.js")
+  end
+
   it "should parse css with global 'a' keyword" do
     a = Assetify::DSL.parse("a 'foo', 'http://w.foolink/c/?foo.css'")[0]
     a.should be_an Asset

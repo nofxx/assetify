@@ -80,6 +80,7 @@ module Assetify
       extension = url.split(".").last
       send(extension, name, url)
     end
+    alias :asset :a
 
     #
     # Creates Assetfile assets path setters
