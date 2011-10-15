@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe Assetify::Helpers do
   BINDATA = File.read(File.join(File.dirname(__FILE__), "..", "fixtures", "complex.tgz"))

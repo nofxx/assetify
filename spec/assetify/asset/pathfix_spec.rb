@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe Assetify::Pathfix do
 
@@ -68,7 +68,7 @@ div.star-rating,div.star-rating a{background:url(star.gif) no-repeat 0 0px}", :s
 
   describe "Multiple assets test big css minified file" do
 
-    let (:f) { Pathfix.new File.read("#{File.dirname(__FILE__)}/../fixtures/mobile.css"), :scss }
+    let (:f) { Pathfix.new File.read("#{File.dirname(__FILE__)}/../../fixtures/mobile.css"), :scss }
 
     it "should detect images" do
       f.images.should eql(["images/icons-18-white.png", "images/icons-18-black.png", "images/icons-36-white.png", "images/icons-36-black.png", "images/ajax-loader.png"])
