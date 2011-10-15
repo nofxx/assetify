@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Asset do
+describe Assetify::Asset do
 
   it "should spawn!" do
     as = Asset.new :js, "cool", "http://cool.js"
@@ -19,14 +19,19 @@ describe Asset do
       as.fullpath.should eql("vendor/assets/javascripts/sweet.js")
     end
 
-    it "should detect version" do
+    it "should detect version from strings" do
       as.instance_variable_set "@data", "/* foo v 1.5.6 */"
-      as.ver[0].should eql("1.5.6")
+      as.print_version.should eql("v1.5.6")
     end
 
-    it "should print version" do
+    it "should use sums for binaries version" do
       as.instance_variable_set "@data", "\u001F\x8B\b\u0000\xF5\u0000"
-      as.print_version.should eql("v537c8396f74 ")
+      as.print_version.should eql("v537c8396f74")
+    end
+
+    it "should use sums when can't find valid pattern" do
+      as.instance_variable_set "@data", "I don't care versioning. 123"
+      as.print_version.should eql("v03360413d77")
     end
 
   end
@@ -35,8 +40,12 @@ describe Asset do
 
     let (:as) { Asset.new :js, "sweet", "http://candy.js", nil, :ns => "spacemonkey" }
 
-    it "should have name" do
+    it "should have namespace" do
       as.ns.should eql("spacemonkey")
+    end
+
+    it "should have a namespaced path" do
+      as.fullpath.should eql("vendor/assets/javascripts/spacemonkey/sweet.js")
     end
 
   end

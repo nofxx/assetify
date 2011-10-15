@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe DSL do
+describe Assetify::DSL do
 
   it "should parse js nicely" do
     a = Assetify::DSL.parse("js 'foo', 'foolink'")[0]

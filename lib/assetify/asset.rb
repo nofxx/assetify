@@ -88,7 +88,7 @@ module Assetify
     def print_version
       return "" unless ver
       ver_str = ver.size > 10 ? ver[0..10] : ver[0]
-      "v#{ver_str} "
+      "v#{ver_str}"
     end
 
     #

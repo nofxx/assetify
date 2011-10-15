@@ -1,9 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Helpers do
+describe Assetify::Helpers do
   BINDATA = File.read(File.join(File.dirname(__FILE__), "..", "fixtures", "complex.tgz"))
 
-  include Helpers
+  include Assetify::Helpers
 
   it "should detect text as not binary" do
     "I'm not a cylon!".should_not be_binary

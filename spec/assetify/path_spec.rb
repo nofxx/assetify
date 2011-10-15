@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Pathfix do
+describe Assetify::Pathfix do
 
   it "should spawn!" do
     f = Pathfix.new "fu"
