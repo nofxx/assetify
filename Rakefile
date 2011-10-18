@@ -2,10 +2,10 @@
 require 'bundler'
 Bundler.setup
 
-require "rake"
-require "rdoc/task"
-require "rspec"
-require "rspec/core/rake_task"
+#require "rake"
+# require "rdoc/task"
+# require "rspec"
+# require "rspec/core/rake_task"
 
 $LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 require "assetify/version"

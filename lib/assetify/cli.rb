@@ -22,6 +22,41 @@ module Assetify
       Asset.filter params
     end
 
+    def check assets
+      assets.each do |a|
+        LINE.p a.header
+        if  a.file_exists? # Return if file is on path
+          a.read_data
+          LINE.f "#{a.print_version} Installed"
+        else
+          LINE.f "Not Found", :red
+        end
+      end
+    end
+
+    def install assets, force = false
+      assets.each do |a|
+        LINE.p a.header
+        if !force && a.file_exists? # Return if file is on path
+          a.read_data
+          return LINE.f "#{a.print_version} Installed"
+        end
+        begin
+          # Creates a thread to insert dots while downloading
+          points = Thread.new { loop do; LINE.p "."; sleep 1; end }
+
+          a.install! force
+          LINE.f "#{a.print_version} ok"
+        rescue => e
+          LINE.f :FAIL, :red
+          p "Fail: #{e} #{e.backtrace}"
+        ensure
+          points.kill
+        end
+
+      end
+    end
+
     #
     # CLI Master case/switch!
     #
@@ -35,16 +70,17 @@ module Assetify
     # w -> web
     #
     def work_on params
+      assets = find_assets(params[1])
       case params.first
       when /^i/, nil
         check_param params, "install" if params[0]
-        find_assets(params[1]).map(&:install!)
+        install assets
       when /^u/
         check_param params, "update"
-        find_assets(params[1]).map { |a| a.install! :force }
+        install assets, :force
       when /^c/
         check_param params, "check"
-        find_assets(params[1]).map { |a| a.check! }
+        check assets
       when /^w/
         check_param params, "web"
         GUI.boot!
@@ -73,5 +109,4 @@ module Assetify
     end
 
   end
-
 end

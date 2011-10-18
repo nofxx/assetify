@@ -77,6 +77,17 @@ module Assetify
       @data
     end
 
+    def read_data
+       @data = File.read(fullpath)
+    end
+
+    #
+    # Prints info about the asset (TODO: move this to cli...)
+    #
+    def header
+      "-> #{name}.#{type}"
+    end
+
     #
     # Asset version
     #
@@ -91,45 +102,17 @@ module Assetify
       "v#{ver_str}"
     end
 
-    #
-    # Prints info about the asset (TODO: move this to cli...)
-    #
-    def header
-      LINE.p "-> #{name}.#{type}"
-    end
-
-    def check!
-      header
-      if  file_exists? # Return if file is on path
-        @data = File.read(fullpath)
-        LINE.f "#{print_version}Installed"
-      else
-        LINE.f "Not Found", :red
-      end
-    end
 
     #
     # Write down asset to disk
     #
     def install!(force = false)
-      header
-      if !force && file_exists? # Return if file is on path
-        @data = File.read(fullpath)
-        return LINE.f "#{print_version}Installed"
-      end
       begin
-        # Creates a thread to insert dots while downloading
-        points = Thread.new { loop do; LINE.p "."; sleep 1; end }
-
         write data
-        LINE.f "#{print_version}ok"
       rescue => e
         LINE.f :FAIL, :red
         p "Fail: #{e} #{e.backtrace}"
-      ensure
-        points.kill
       end
-
     end
 
     class << self
