@@ -58,29 +58,26 @@ module Assetify
     end
 
     #
-    # Parse the assets.
-    #
-    # js "foo", "http://foo.com"
-    # js "foo", "http://foo.com", :to => "/other/place"
-    #
-    def method_missing method, name, uri, *params
-      params, ver = params.partition { |param| param.is_a?(Hash) }
-      opts = {}
-      params.each { |hsh| opts.merge! hsh }
-      ver = ver[0]
-      create_asset(method.to_sym, name, uri, ver, opts)
-    end
-
-    #
     # Global command, detects the filetype
     #
     #    a "jquery", "http://...jquery.js"
     #
     def a name, url, *params
       extension = url.split(".").last
-      send(extension, name, url)
+      parse_method extension, name, url
     end
     alias :asset :a
+
+    #
+    # Filter/validate DSL to parse
+    #
+    def method_missing method, name=nil, uri=nil, *params
+      unless name && uri
+        raise SyntaxError.new "Syntax Error on Assetfile. `#{method} :#{name}`"
+      else
+        parse_method method, name, uri, params
+      end
+    end
 
     #
     # Creates Assetfile assets path setters
@@ -94,6 +91,20 @@ module Assetify
     end
 
     private
+
+    #
+    # Parse the DSL dynamic extensions
+    #
+    # js "foo", "http://foo.com"
+    # js "foo", "http://foo.com", :to => "/other/place"
+    #
+    def parse_method method, name, uri, params=[]
+      params, ver = params.partition { |param| param.is_a?(Hash) }
+      opts = {}
+      params.each { |hsh| opts.merge! hsh }
+      ver = ver[0]
+      create_asset(method.to_sym, name, uri, ver, opts)
+    end
 
     #
     # Helper to create asset with correct options

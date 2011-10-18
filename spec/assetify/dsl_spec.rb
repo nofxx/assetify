@@ -69,6 +69,18 @@ describe Assetify::DSL do
     a.name.should eql("jnice")
   end
 
+  it "should raise SyntaxError when method_missing fails" do
+    lambda do
+      Assetify::DSL.parse("fooo")
+    end.should raise_error SyntaxError
+  end
+
+  it "should raise SyntaxError when url is nil" do
+    lambda do
+      Assetify::DSL.parse("js :jnice")
+    end.should raise_error SyntaxError
+  end
+
   describe "Templates and Pathfixes" do
 
     it "should parse css to erb nicely" do
