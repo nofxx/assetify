@@ -1,4 +1,7 @@
 module Assetify
+  #
+  # Command Line Interface
+  #
   class CLI
     def initialize(size = TSIZE)
       @size = size
@@ -11,7 +14,7 @@ module Assetify
     end
 
     def f(txt, color = :green)
-      puts "[#{txt}]".send(color).bold.rjust (TSIZE - @chars + 17)
+      puts "[#{txt}]".send(color).bold.rjust(TSIZE - @chars + 17)
       @chars = 0
     end
   end

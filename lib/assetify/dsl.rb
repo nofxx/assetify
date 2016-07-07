@@ -1,4 +1,7 @@
 module Assetify
+  #
+  # Nice Assetfile reader
+  #
   class DSL
     attr_reader :assets
 
@@ -11,8 +14,8 @@ module Assetify
     def pkg(name, url, opts = {}, &block)
       @pkg = Pkg.new name, url
       if block_given?
-        set_namespace name unless opts[:shallow]
-        instance_exec &block
+        use_namespace(name) unless opts[:shallow]
+        instance_exec(&block)
       else
         @pkg.unpack_all
       end
@@ -28,8 +31,8 @@ module Assetify
     # end
     #
     def group(name, &block)
-      set_namespace name
-      instance_exec &block
+      use_namespace(name)
+      instance_exec(&block)
       @ns = nil
       assets
     ensure
@@ -48,7 +51,7 @@ module Assetify
       to = params[:to]
       if @pkg
         @pkg.get(regex).each do |path, _data|
-          next if path =~ /\/$/ # dont let dirs get in... ugly
+          next if path =~ %r{/$} # dont let dirs get in... ugly
           ext, *name = path.split('.').reverse
           name = name.reverse.join('.').split('/').last
           create_asset(ext, name, path, nil, to: to)
@@ -89,6 +92,15 @@ module Assetify
       end
     end
 
+    #
+    # DSL.parse()
+    #
+    def self.parse(chunk)
+      # puts "Assetify - Error Parsing 'Assetfile'."
+      # Instance eval with 2nd, 3rd args to the rescue
+      new.instance_eval(chunk, 'Assetfile', 1)
+    end
+
     private
 
     #
@@ -109,22 +121,14 @@ module Assetify
     # Helper to create asset with correct options
     #
     def create_asset(ext, name, path, ver, opts = {})
-      opts.merge! ({ pkg: @pkg, ns: @ns })
+      opts[:pkg] = @pkg
+      opts[:ns] = @ns
       @assets ||= []
       @assets << Asset.new(ext, name, path, ver, opts)
     end
 
-    def set_namespace(name)
+    def use_namespace(name)
       @ns = @ns.nil? ? name : "#{@ns}/#{name}"
-    end
-
-    #
-    # DSL.parse()
-    #
-    def self.parse(chunk)
-      # puts "Assetify - Error Parsing 'Assetfile'."
-      # Instance eval with 2nd, 3rd args to the rescue
-      new.instance_eval(chunk, 'Assetfile', 1)
     end
   end
 end

@@ -53,7 +53,7 @@ module Assetify
                 data ? data.body : nil
               else
                 File.open(str)
-      end
+              end
     end
 
     def write(binary)

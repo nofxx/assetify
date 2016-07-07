@@ -1,7 +1,7 @@
+#
+# Adapted ptools - http://rdoc.info/gems/ptools/1.2.1/File.binary%3F
+#
 class String
-  #
-  # Adapted ptools - http://rdoc.info/gems/ptools/1.2.1/File.binary%3F
-  #
   def binary?
     # s = (File.read(file, File.stat(file).blksize) || "").split(//)
     s = (self[0..4096].force_encoding('binary') || '') # .split(//)

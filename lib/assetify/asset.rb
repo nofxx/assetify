@@ -4,6 +4,9 @@ require 'assetify/asset/pkg'
 require 'assetify/asset/pathfix'
 
 module Assetify
+  #
+  # What's an Asset?
+  #
   class Asset
     include Helpers
     attr_accessor :type, :name, :url, :ns, :pkg, :ver, :ext, :as
@@ -56,7 +59,7 @@ module Assetify
                [tpath, @ns ? @ns.to_s : '']
              else
                [Dir.pwd, @to]
-      end
+             end
       @path = File.join(args)
     end
 

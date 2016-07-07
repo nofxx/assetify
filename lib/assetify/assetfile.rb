@@ -1,4 +1,7 @@
 module Assetify
+  #
+  # The Assetfile!
+  #
   class Assetfile
     class << self
       #
@@ -38,7 +41,7 @@ TXT
 
       def read
         file = File.open('Assetfile') # ruby 1.8/1.9 (ugly) fix
-        code = file.send(file.respond_to?(:lines) ? :lines : :readlines).map do |line|
+        code = file.each_line.map do |line|
           # Parse options
           if line =~ /^\w{2,3}path/
             key, val = line.split(' ')

@@ -1,6 +1,9 @@
 require 'libarchive'
 
 module Assetify
+  #
+  # Some Assets are inside rocks, need tools...
+  #
   class Pkg
     include Helpers
     attr_accessor :name, :url
@@ -24,7 +27,7 @@ module Assetify
     def read_from_pkg(regex = '.*')
       data = {}
       Archive.read_open_filename(fullpath) do |ar|
-        while entry = ar.next_header
+        while (entry = ar.next_header)
           if entry.pathname =~ /#{regex}/
             data[entry.pathname] = ar.read_data
             # return data
@@ -46,10 +49,10 @@ module Assetify
     #
     def unpack_all
       read_from_pkg.each do |file, data|
-        fname, *dir = file =~ /\/$/ ? [nil, file] : file.split('/').reverse
+        _fname, *dir = file =~ %r{/$} ? [nil, file] : file.split('/').reverse
         dir = File.join Opt[:vendor], dir.reverse.join('/')
         FileUtils.mkdir_p dir unless Dir.exist?(dir)
-        next if file =~ /\/$/ # next if data.empty?
+        next if file =~ %r{/$} # next if data.empty?
         File.open(Opt[:vendor] + "/#{file}", 'w+') { |f| f.puts(data) }
       end
     end

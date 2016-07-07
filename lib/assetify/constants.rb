@@ -2,7 +2,7 @@ module Assetify
   Opt = {
     vendor: 'public/vendor',
     newname: true
-  }.freeze
+  }
 
   TSIZE = 80
   ASSETS_PATH = 'vendor/assets'.freeze
