@@ -1,8 +1,11 @@
 module Assetify
+  #
+  # *Attempt* to fix assets in js/css for #image_url
+  #
   class Pathfix
-    def initialize(chunk, as = :erb, ns = nil)
+    def initialize(chunk, renderer = :erb, ns = nil)
       @chunk = chunk
-      @as = as
+      @renderer = renderer
       @ns = ns
       @images = scan_images
     end
@@ -10,12 +13,12 @@ module Assetify
     attr_reader :images
 
     def scan_images
-      @chunk.scan(/url\(([a-zA-Z0-9\/\_\-\.]*\.\w+)\)/xo).flatten
+      @chunk.scan(%r{url\(([a-zA-Z0-9/\_\-\.]*\.\w+)\)}xo).flatten
     end
 
     def replace(src)
       fpath = @ns ? "#{@ns}/#{src}" : src
-      if @as == :erb
+      if @renderer == :erb
         "url('<%= image_path('#{fpath}') %>')"
       else
         "image-url('#{fpath}')"
@@ -26,12 +29,12 @@ module Assetify
       @images.each do |path|
         @chunk["url(#{path})"] = replace path.split('/').last
       end
-      @as != :erb ? tmpl_chunk : @chunk
+      @renderer != :erb ? tmpl_chunk : @chunk
     end
 
     def tmpl_chunk
       require 'sass/css'
-      Sass::CSS.new(@chunk).render(@as)
+      Sass::CSS.new(@chunk).render(@renderer)
     rescue Sass::SyntaxError => e
       @error = e
     end

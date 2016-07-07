@@ -32,8 +32,7 @@ describe Assetify::Pathfix do
 
   describe 'Multiple assets test sass' do
     let (:f) do
-      Pathfix.new "div.rating-cancel,div.rating-cancel a{background:url(delete.gif) no-repeat 0 -16px}
-div.star-rating,div.star-rating a{background:url(star.gif) no-repeat 0 0px}", :sass
+      Pathfix.new "div.rating-cancel,div.rating-cancel a{background:url(delete.gif) no-repeat 0 -16px} div.star-rating,div.star-rating a{background:url(star.gif) no-repeat 0 0px}", :sass
     end
 
     it 'should detect images' do
@@ -41,14 +40,13 @@ div.star-rating,div.star-rating a{background:url(star.gif) no-repeat 0 0px}", :s
     end
 
     it 'should change css' do
-      expect(f.fix).to eql "div\n  &.rating-cancel\n    background: image-url(\"delete.gif\") no-repeat 0 -16px\n    a\n      background: image-url(\"delete.gif\") no-repeat 0 -16px\n  &.star-rating\n    background: image-url(\"star.gif\") no-repeat 0 0px\n    a\n      background: image-url(\"star.gif\") no-repeat 0 0px\n"
+      expect(f.fix).to eql "div\n  &.rating-cancel\n    background: image-url(\"delete.gif\") no-repeat 0 -16px\n\n    a\n      background: image-url(\"delete.gif\") no-repeat 0 -16px\n\n  &.star-rating\n    background: image-url(\"star.gif\") no-repeat 0 0px\n\n    a\n      background: image-url(\"star.gif\") no-repeat 0 0px\n"
     end
   end
 
   describe 'Multiple assets test scss' do
     let (:f) do
-      Pathfix.new "div.rating-cancel,div.rating-cancel a{background:url(delete.gif) no-repeat 0 -16px}
-div.star-rating,div.star-rating a{background:url(star.gif) no-repeat 0 0px}", :scss
+      Pathfix.new "div.rating-cancel,div.rating-cancel a{background:url(delete.gif) no-repeat 0 -16px} div.star-rating,div.star-rating a{background:url(star.gif) no-repeat 0 0px}", :scss
     end
 
     it 'should detect images' do
@@ -56,7 +54,7 @@ div.star-rating,div.star-rating a{background:url(star.gif) no-repeat 0 0px}", :s
     end
 
     it 'should change css' do
-      expect(f.fix).to eql "div {\n  &.rating-cancel {\n    background: image-url(\"delete.gif\") no-repeat 0 -16px;\n    a {\n      background: image-url(\"delete.gif\") no-repeat 0 -16px; } }\n  &.star-rating {\n    background: image-url(\"star.gif\") no-repeat 0 0px;\n    a {\n      background: image-url(\"star.gif\") no-repeat 0 0px; } } }\n"
+      expect(f.fix).to eql "div {\n  &.rating-cancel {\n    background: image-url(\"delete.gif\") no-repeat 0 -16px;\n\n    a {\n      background: image-url(\"delete.gif\") no-repeat 0 -16px;\n    }\n  }\n\n  &.star-rating {\n    background: image-url(\"star.gif\") no-repeat 0 0px;\n\n    a {\n      background: image-url(\"star.gif\") no-repeat 0 0px;\n    }\n  }\n}\n"
     end
   end
 

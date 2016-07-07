@@ -1,3 +1,10 @@
+
+```
+░█▀▀█ █▀▀ █▀▀ █▀▀ ▀▀█▀▀ ░▀░ █▀▀ █░░█
+▒█▄▄█ ▀▀█ ▀▀█ █▀▀ ░▒█░░ ▀█▀ █▀▀ █▄▄█
+▒█░▒█ ▀▀▀ ▀▀▀ ▀▀▀ ░▒█░░ ▀▀▀ ▀░░ ▄▄▄█
+```
+
 Assetify
 ========
 
@@ -29,7 +36,7 @@ Assetfile
 Like a `Gemfile`, but with fewer chars. Only one actually.
 
 
-Behold the 'a'
+Behold the `a`
 --------------
 
     a  "tipsy", "http://...tipsy.js"
@@ -37,7 +44,7 @@ Behold the 'a'
     a  "video", "http://...video.mpeg"
 
 
-There's also an alias 'asset' for 'a', if you enjoy typing.
+There's also an alias `asset` for `a`, if you enjoy typing:
 
 
     asset "tipsy", "http://...tipsy.js"
@@ -97,7 +104,7 @@ Big projects makes you download tons of files for some .min files and css.
       css "cool", "internal/css/cool.css"
     end
 
-This downloads and 'cherry pick' the files.
+This downloads and 'cherry picks' the files.
 Files will be written with the namespace "fancy":
 
     /javascripts/fancy/cool.js
@@ -267,4 +274,3 @@ Copyright
 
 Copyright (c) 2011 Marcos Piccinini. See LICENSE.txt for
 further details.
-
