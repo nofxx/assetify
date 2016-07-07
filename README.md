@@ -279,5 +279,6 @@ Contributing
 Copyright
 ---------
 
-Copyright (c) 2011 Marcos Piccinini. See LICENSE.txt for
-further details.
+Copyright (c) 2011 Marcos Piccinini.
+See LICENSE.txt for further details.
+ASCII Art by [FSymbols](http://fsymbols.com/generators/tarty)
