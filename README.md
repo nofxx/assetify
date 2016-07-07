@@ -5,6 +5,13 @@
 ▒█░▒█ ▀▀▀ ▀▀▀ ▀▀▀ ░▒█░░ ▀▀▀ ▀░░ ▄▄▄█
 ```
 
+[![Gem Version](https://badge.fury.io/rb/assetify.svg)](http://badge.fury.io/rb/assetify)
+[![Code Climate](https://codeclimate.com/github/nofxx/assetify.svg)](https://codeclimate.com/github/nofxx/assetify)
+[![Coverage Status](https://coveralls.io/repos/nofxx/assetify/badge.svg?branch=master)](https://coveralls.io/r/nofxx/assetify?branch=master)
+[![Dependency Status](https://gemnasium.com/nofxx/assetify.svg)](https://gemnasium.com/nofxx/assetify)
+[![Build Status](https://travis-ci.org/nofxx/assetify.svg?branch=master)](https://travis-ci.org/nofxx/assetify)
+
+
 Assetify
 ========
 
