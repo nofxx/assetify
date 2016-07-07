@@ -46,33 +46,33 @@ Like a `Gemfile`, but with fewer chars. Only one actually.
 Behold the `a`
 --------------
 
-    a  "tipsy", "http://...tipsy.js"
-    a  "tipsy", "http://...tipsy.css"
-    a  "video", "http://...video.mpeg"
+    a  'tipsy', 'http://...tipsy.js'
+    a  'tipsy', 'http://...tipsy.css'
+    a  'video', 'http://...video.mpeg'
 
 
 There's also an alias `asset` for `a`, if you enjoy typing:
 
 
-    asset "tipsy", "http://...tipsy.js"
+    asset 'tipsy', 'http://...tipsy.js'
 
 
 
 You can choose the filetype (or extension) before too:
 
-    type "name", "url", <"version"> or <:options>
+    type 'name', 'url', <'version'> or <:options>
 
-    js "jquery", "http://code.jquery.com/jquery-{VERSION}.min.js", "1.6"
-    js "tipsy",  "https://github.com/jaz303/tipsy/.../jquery.tipsy.js"
+    js 'jquery', 'http://code.jquery.com/jquery-{VERSION}.min.js', '1.6'
+    js 'tipsy',  'https://github.com/jaz303/tipsy/.../jquery.tipsy.js'
 
 
 Stylesheets:
 
-    css "tipsy", "https://github.com/jaz303/tipsy/.../jquery.tipsy.css"
+    css 'tipsy', 'https://github.com/jaz303/tipsy/.../jquery.tipsy.css'
 
 Any file:
 
-    mp3 "alert", "http://link/to/audio"
+    mp3 'alert', 'http://link/to/audio'
 
 
 Now just run `assetify` to make sure everything is installed/up-to-date.
@@ -83,20 +83,20 @@ Groups
 
 Use groups/namespaces to group related assets together:
 
-    group "forms" do
-      js "validator", url
-      js "textmask",  url
+    group 'forms' do
+      js 'validator', url
+      js 'textmask',  url
     end
 
 
-This will install as "vendor/assets/javascripts/forms/validator.js"
+This will install as `vendor/assets/javascripts/forms/validator.js`
 
 You can nest groups too:
 
-    group "forms" do
-      js "validator", url
-      group "extra" do
-        js "another", url
+    group 'forms' do
+      js 'validator', url
+      group 'extra' do
+        js 'another', url
       end
     end
 
@@ -106,27 +106,26 @@ Pkgs
 
 Big projects makes you download tons of files for some .min files and css.
 
-    pkg "fancy", "http://to.tgz.or.zip" do
-      js  "cool", "internal/js/cool.js"
-      css "cool", "internal/css/cool.css"
+    pkg 'fancy', 'http://to.tgz.or.zip' do
+      js  'cool', 'internal/js/cool.js'
+      css 'cool', 'internal/css/cool.css'
     end
 
-This downloads and 'cherry picks' the files.
-Files will be written with the namespace "fancy":
+This downloads and "cherry picks" the files.
+Files will be written with the namespace `fancy`:
 
     /javascripts/fancy/cool.js
 
-You can pass :shallow => true to avoid the namespace:
+You can pass `shallow: true` to avoid the namespace:
 
-    pkg "fancy", "http://to.tgz.or.zip", shallow: true do
+    pkg 'fancy', 'http://to.tgz.or.zip', shallow: true do
 
 Results in:
 
     /javascript/cool.js
 
 
-Also, please check out the note about link inside pkgs below.
-
+Also, please check out the note about links inside pkgs below.
 
 
 Dir
@@ -135,15 +134,15 @@ ___
 You can resource a full directory of files, too. Very useful when
 dealing with pkgs:
 
-    pkg "complexfw", "link" do
-      js  "complex.min.js"
-      dir "images/", to: "images/complexfw"
+    pkg 'complexfw', 'link' do
+      js  'complex.min.js'
+      dir 'images/', to: 'images/complexfw'
       # Another option, treat`em all as filetype:
-      dir "src/", :as => :js
+      dir 'src/', as: :js
     end
 
-All files inside images will be copied to "images/complexfw" and
-all files in 'src' to 'javascripts' (or whatever else jspath is).
+All files inside images will be copied to `images/complexfw` and
+all files in `src` to `javascripts` (or whatever else jspath is).
 
 
 Note: Have in mind that the "link" inside dir/packages *is a regex*
@@ -165,10 +164,10 @@ And every path corrected to use the pipeline.
 
 Jquery Mobile example:
 
-    pkg :mobile, "http://code.jquery.com....zip", shallow: true do
-      js  "mobile", "mobile.js"
-      css "mobile", "mobile.css", :as => :sass
-      dir "images/*"
+    pkg :mobile, 'http://code.jquery.com....zip', shallow: true do
+      js  'mobile', 'mobile.js'
+      css 'mobile', 'mobile.css', as: :sass
+      dir 'images/*'
     end
 
 You just need:
@@ -177,9 +176,8 @@ You just need:
 
 On application.css and application.js.
 
-Images will be in 'vendor/assets/mobile/*', and the paths inside
-mobile.css corrected to 'image-url(mobile/*)', or <%%> if I`ve had
-choose erb.
+Images will be in `vendor/assets/mobile/*`, and the paths inside
+mobile.css corrected to `image-url(mobile/*)`, or `<%%>` if it's erb.
 
 This means you can have any third party library in the format
 you like, always up-to-date. Easy to copy and customize parts
@@ -191,12 +189,12 @@ foo2bar
 
 You can convert your assets to coffescript, sass or scss:
 
-     js "fulib", "http....", :as => :coffee
-     css "1140", "http....", :as => :sass
-     css "1140", "http....", :as => :scss
+     js 'fulib', 'http....', as: :coffee
+     css '1140', 'http....', as: :sass
+     css '1140', 'http....', as: :scss
 
 Note: You do need aditional stuff for this.
-Gem 'sass' and/or node`s 'js2coffee' (install via npm).
+Gem `sass` and/or node's `js2coffee` (install via npm).
 
 
 minimagick
@@ -205,10 +203,10 @@ minimagick
 Preprocess images is also possible:
 
 
-    png "logo", "http....", :as => :jpg, :quality => 75
+    png 'logo', 'http....', as: :jpg, quality: 75
 
 
-Note: Need to install 'imagemagick' and 'minimagick' gem for this.
+Note: Need to install `imagemagick` and `minimagick` gem for this.
 
 Versions
 --------
@@ -224,10 +222,10 @@ Other
 Set a different location per file:
 
 
-    js "other", "http://lib.../other.js", to: "different/path"
+    js 'other', 'http://lib.../other.js', to: 'different/path'
 
 Filename will be: ./different/path/other.js
-This works for namespaces too, change "to" with "ns".
+This works for namespaces too, use `ns` instead of `to`.
 
 
 
@@ -237,15 +235,15 @@ Options
 Change some default settings:
 
     newname      true || false
-    javascripts  "public/javascripts"
-    stylesheets  "public/stylesheets"
-    images       "public/images"
+    javascripts  'public/javascripts'
+    stylesheets  'public/stylesheets'
+    images       'public/images'
 
 If newname is set to true (default) the file will be renamed. Ex:
 
-    js "validator", "http//.../jquery.validator.min.js"
+    js 'validator', 'http//.../jquery.validator.min.js'
 
-Filename will be: "validator.js"
+Filename will be: `validator.js`
 
 
 
