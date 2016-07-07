@@ -5,10 +5,10 @@ require 'optparse'
 require 'assetify'
 
 opt = OptionParser.new do |o|
-    o.banner = <<BANNER
+  o.banner = <<BANNER
 This is Assetify! What we`re going to do?
 
-Usage: #{File.basename($0)} command [args]
+Usage: #{File.basename($PROGRAM_NAME)} command [args]
 
 Commands:
 
@@ -22,12 +22,10 @@ Options:
 
 BANNER
 
-
-  o.on('-h', "Show help") { puts o; exit }
-  o.on('-d', "Verbose (Debug)") { Assetify::Opt[:debug] = true }
+  o.on('-h', 'Show help') { puts o; exit }
+  o.on('-d', 'Verbose (Debug)') { Assetify::Opt[:debug] = true }
   o.parse!
 end
-
 
 begin
   Assetify.work!(ARGV)
@@ -36,5 +34,3 @@ rescue Interrupt => e
   puts e.backtrace.join("\n")
   exit 1
 end
-
-
