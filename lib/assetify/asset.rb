@@ -1,28 +1,30 @@
-require "net/http"
-require "fileutils"
-require "assetify/asset/pkg"
-require "assetify/asset/pathfix"
+require 'net/http'
+require 'fileutils'
+require 'assetify/asset/pkg'
+require 'assetify/asset/pathfix'
 
 module Assetify
-
   class Asset
     include Helpers
     attr_accessor :type, :name, :url, :ns, :pkg, :ver, :ext, :as
 
-    def initialize(type, name, url, ver = nil, params={})
-      raise "NoType" unless type
-      raise "NoName" unless name
-      raise "NoURL" unless url
-      @type, @name = type, name.to_s
+    def initialize(type, name, url, ver = nil, params = {})
+      raise 'NoType' unless type
+      raise 'NoName' unless name
+      raise 'NoURL' unless url
+      @type = type
+      @name = name.to_s
       @url = (@ver = ver) ? url.gsub(/{VERSION}/, @ver) : url
       if @name =~ /\./
-        @name, @ext = name.split(".")
+        @name, @ext = name.split('.')
       else
         @ext = @type == :img ? find_ext_for(url) : @type
       end
 
-      @pkg, @as, @ns = params[:pkg], params[:as], params[:ns]
-      @to  = params[:to] || ""
+      @pkg = params[:pkg]
+      @as = params[:as]
+      @ns = params[:ns]
+      @to = params[:to] || ''
     end
 
     def filename
@@ -32,14 +34,14 @@ module Assetify
       @filename
     end
 
-    def find_ext_for file
-      file.split(".").last[0,3]
+    def find_ext_for(file)
+      file.split('.').last[0, 3]
     end
 
     #
     # Find correct path to put me
     #
-    def find_path_for txt
+    def find_path_for(txt)
       case txt
       when /js/  then :javascripts
       when /css|style/ then :stylesheets
@@ -49,11 +51,11 @@ module Assetify
 
     def path
       args = if @to.empty?
-        tpath = Opt[find_path_for(type)]
-        raise "Don`t know where to put #{type} files..." unless tpath
-        [tpath,  @ns ? @ns.to_s : ""]
-      else
-        [Dir.pwd, @to]
+               tpath = Opt[find_path_for(type)]
+               raise "Don`t know where to put #{type} files..." unless tpath
+               [tpath, @ns ? @ns.to_s : '']
+             else
+               [Dir.pwd, @to]
       end
       @path = File.join(args)
     end
@@ -63,7 +65,7 @@ module Assetify
     end
 
     def file_exists?
-      File.exists? fullpath
+      File.exist? fullpath
     end
 
     def data
@@ -78,7 +80,7 @@ module Assetify
     end
 
     def read_data
-       @data = File.read(fullpath)
+      @data = File.read(fullpath)
     end
 
     #
@@ -97,22 +99,20 @@ module Assetify
     end
 
     def print_version
-      return "" unless ver
+      return '' unless ver
+      # chop to only first 10 chars if it's big hash
       ver_str = ver.size > 10 ? ver[0..10] : ver[0]
       "v#{ver_str}"
     end
 
-
     #
     # Write down asset to disk
     #
-    def install!(force = false)
-      begin
-        write data
-      rescue => e
-        LINE.f :FAIL, :red
-        p "Fail: #{e} #{e.backtrace}"
-      end
+    def install!(_force = false)
+      write data
+    rescue => e
+      LINE.f :FAIL, :red
+      p "Fail: #{e} #{e.backtrace}"
     end
 
     class << self
@@ -123,15 +123,12 @@ module Assetify
         @all ||= Assetfile.read
       end
 
-      def filter params
+      def filter(params)
         all.select do |a|
           blob = "#{a.name}#{a.pkg.name if a.pkg}"
           blob.include? params
         end
       end
-
     end
-
   end
-
 end

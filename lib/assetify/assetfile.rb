@@ -1,16 +1,14 @@
 module Assetify
   class Assetfile
     class << self
-
-
       #
       # Assetfile stuff
       #
       def missing!
-        print "Assetfile not found, create one? [Y/n] "
+        print 'Assetfile not found, create one? [Y/n] '
         res = $stdin.gets.chomp # dont forget stdin
         unless res =~ /n|N/
-          File.open("Assetfile", "w+") do |f|
+          File.open('Assetfile', 'w+') do |f|
             f.print <<TXT
 #
 # #{Dir.pwd.split('/').last.capitalize} Assetfile
@@ -25,7 +23,7 @@ end
 
 TXT
           end
-          puts "Assetfile created!"
+          puts 'Assetfile created!'
           exit 0
         end
       end
@@ -35,21 +33,21 @@ TXT
       #
       #
       def find
-        missing! unless File.exists?("Assetfile")
+        missing! unless File.exist?('Assetfile')
       end
 
       def read
-        file = File.open("Assetfile") # ruby 1.8/1.9 (ugly) fix
+        file = File.open('Assetfile') # ruby 1.8/1.9 (ugly) fix
         code = file.send(file.respond_to?(:lines) ? :lines : :readlines).map do |line|
           # Parse options
           if line =~ /^\w{2,3}path/
-            key, val = line.split(" ")
+            key, val = line.split(' ')
             Opt[key.to_sym] = val
             next
           end
           line
         end.reject(&:nil?)
-        DSL.parse code.join("")
+        DSL.parse code.join('')
       end
 
       # def write

@@ -1,16 +1,15 @@
 require 'libarchive'
 
 module Assetify
-
   class Pkg
     include Helpers
     attr_accessor :name, :url
 
-    PATH = "/tmp/"
+    PATH = '/tmp/'.freeze
 
-    def initialize(name, url, opts={})
+    def initialize(name, url, _opts = {})
       @name = name
-      @pkgname = url.split("/").last
+      @pkgname = url.split('/').last
       @url = url
     end
 
@@ -22,13 +21,13 @@ module Assetify
       File.join(path, @pkgname)
     end
 
-    def read_from_pkg(regex = ".*")
+    def read_from_pkg(regex = '.*')
       data = {}
       Archive.read_open_filename(fullpath) do |ar|
         while entry = ar.next_header
           if entry.pathname =~ /#{regex}/
-            data.merge! entry.pathname => ar.read_data
-           # return data
+            data[entry.pathname] = ar.read_data
+            # return data
           end
         end
       end
@@ -37,7 +36,7 @@ module Assetify
 
     def get(file, force = false)
       # Download and write to tmp if force or doensnt exists
-      write(get_data(url)) if force || !File.exists?(fullpath)
+      write(get_data(url)) if force || !File.exist?(fullpath)
       # Better way when multiple are found....?
       read_from_pkg(file)
     end
@@ -47,14 +46,12 @@ module Assetify
     #
     def unpack_all
       read_from_pkg.each do |file, data|
-        fname, *dir = file =~ /\/$/ ? [nil, file] : file.split("/").reverse
-        dir = File.join Opt[:vendor], dir.reverse.join("/")
-        FileUtils.mkdir_p dir unless Dir.exists?(dir)
+        fname, *dir = file =~ /\/$/ ? [nil, file] : file.split('/').reverse
+        dir = File.join Opt[:vendor], dir.reverse.join('/')
+        FileUtils.mkdir_p dir unless Dir.exist?(dir)
         next if file =~ /\/$/ # next if data.empty?
-        File.open(Opt[:vendor] + "/#{file}", "w+") { |f| f.puts(data) }
+        File.open(Opt[:vendor] + "/#{file}", 'w+') { |f| f.puts(data) }
       end
     end
-
   end
-
 end

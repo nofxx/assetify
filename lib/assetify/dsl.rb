@@ -1,5 +1,4 @@
 module Assetify
-
   class DSL
     attr_reader :assets
 
@@ -9,7 +8,7 @@ module Assetify
     # pkg :foo, "http://to.tgz" do
     # end
     #
-    def pkg name, url, opts = {}, &block
+    def pkg(name, url, opts = {}, &block)
       @pkg = Pkg.new name, url
       if block_given?
         set_namespace name unless opts[:shallow]
@@ -28,7 +27,7 @@ module Assetify
     # group :foo do
     # end
     #
-    def group name, &block
+    def group(name, &block)
       set_namespace name
       instance_exec &block
       @ns = nil
@@ -45,14 +44,14 @@ module Assetify
     #   dir "images/*jpg"
     # end
     #
-    def dir regex, params = {}
+    def dir(regex, params = {})
       to = params[:to]
       if @pkg
-        @pkg.get(regex).each do |path, data|
+        @pkg.get(regex).each do |path, _data|
           next if path =~ /\/$/ # dont let dirs get in... ugly
-          ext, *name = path.split(".").reverse
-          name = name.reverse.join(".").split("/").last
-          create_asset(ext, name, path, nil, { :to => to } )
+          ext, *name = path.split('.').reverse
+          name = name.reverse.join('.').split('/').last
+          create_asset(ext, name, path, nil, to: to)
         end
       end
     end
@@ -62,20 +61,20 @@ module Assetify
     #
     #    a "jquery", "http://...jquery.js"
     #
-    def a name, url, *params
-      extension = url.split(".").last
+    def a(name, url, *_params)
+      extension = url.split('.').last
       parse_method extension, name, url
     end
-    alias :asset :a
+    alias asset a
 
     #
     # Filter/validate DSL to parse
     #
-    def method_missing method, name=nil, uri=nil, *params
-      unless name && uri
-        raise SyntaxError.new "Syntax Error on Assetfile. `#{method} :#{name}`"
-      else
+    def method_missing(method, name = nil, uri = nil, *params)
+      if name && uri
         parse_method method, name, uri, params
+      else
+        raise SyntaxError, "Syntax Error on Assetfile. `#{method} :#{name}`"
       end
     end
 
@@ -98,7 +97,7 @@ module Assetify
     # js "foo", "http://foo.com"
     # js "foo", "http://foo.com", :to => "/other/place"
     #
-    def parse_method method, name, uri, params=[]
+    def parse_method(method, name, uri, params = [])
       params, ver = params.partition { |param| param.is_a?(Hash) }
       opts = {}
       params.each { |hsh| opts.merge! hsh }
@@ -110,25 +109,22 @@ module Assetify
     # Helper to create asset with correct options
     #
     def create_asset(ext, name, path, ver, opts = {})
-      opts.merge! ({pkg: @pkg, ns: @ns })
+      opts.merge! ({ pkg: @pkg, ns: @ns })
       @assets ||= []
       @assets << Asset.new(ext, name, path, ver, opts)
     end
 
-
-    def set_namespace name
+    def set_namespace(name)
       @ns = @ns.nil? ? name : "#{@ns}/#{name}"
     end
 
     #
     # DSL.parse()
     #
-    def self.parse chunk
+    def self.parse(chunk)
       # puts "Assetify - Error Parsing 'Assetfile'."
       # Instance eval with 2nd, 3rd args to the rescue
-      new.instance_eval(chunk, "Assetfile", 1)
+      new.instance_eval(chunk, 'Assetfile', 1)
     end
-
   end
-
 end
